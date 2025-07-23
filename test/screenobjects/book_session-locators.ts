@@ -22,8 +22,8 @@ class BookSessionLocators {
     get timeslot_booksession() {
         return $('~schedule_session_btn_book_session');
     }
-    get timeslot_opt() {
-        return $('//android.view.ViewGroup[@content-desc="8:45pm"]/android.view.ViewGroup');
+    get all_timeslots() {
+        return $$('//android.view.ViewGroup[contains(@content-desc, "am") or contains(@content-desc, "pm")]/android.view.ViewGroup');
     }
     get sessionconfirmation_paynow()   {
         return $('~session_confirmation_btn_pay_now');
@@ -39,6 +39,15 @@ class BookSessionLocators {
     }
     get buynow_btn() {
         return $('~Buy Now');
+    }
+    get savedcard_selection() {
+        return $('//android.view.ViewGroup[@content-desc="saved_card_53"]/android.view.ViewGroup');
+    }
+    get savedcard_input_cvc() {
+        return $('~saved_card_input_cvc');
+    }
+    get savedcard_confirm_button() {
+        return $('~saved_card_button_confirm');
     }
     get tabby_btn() {
         return $('~payment_method_tabby');
@@ -88,42 +97,34 @@ class BookSessionLocators {
     get logoutbtn() {
         return $('android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollTextIntoView("Log Out")');
     }
-    get tabby_bottomsheet() {
-        return $('~Tabby (Pay 189.68 SAR in 4 months), Complete payment with Tabby');
-    }
-    get linknum_tabby() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText');
-    }
-    get clearemail() {
-        return $('//android.widget.EditText[@text="basit@yopmail.com"]');
-    }
+    
+    // get linknum_tabby() {
+    //     return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.view.View');
+    // }
+    // get clearemail() {
+    //     return $('//android.widget.EditText[@text="talha.ilyas@mailinator.com"]');
+    // }
     get testemailtabby() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText');
+        return $('//android.widget.EditText[@resource-id=":r0:"]');
     }
     get tabbyloginphone() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.EditText');
+        return $('//android.widget.EditText[@resource-id=":r2:"]');
     }
     get closekeyboard() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]');
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View');
     }
     get tabbylogincontinue() {
         return $('//android.widget.Button[@text="Continue"]');
     }
     get tabbyotp() {
-        return $('android.widget.EditText');
+        return $('//android.widget.EditText[@resource-id=":r3:"]');
     }
-    get cardnum() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View[2]/android.widget.EditText');
+    get tabbytermscheckbox() {
+        return $('//android.widget.Image');
     }
-    get tabbyexpiry() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[2]/android.widget.EditText');
-    }
-    get tabbycvv() {
-        return $('//android.webkit.WebView[@text="Tabby Checkout"]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View[3]/android.view.View[2]/android.widget.EditText');
-    }
-    get paytabbybtn() {
-        return $('//android.widget.Button[@text="Pay 47.42 SAR"]');
-    }
+    // get paytabbybtn() {
+    //     return $('//android.widget.Button[@text="Pay 47.42 SAR"]');
+    // }
 }
 
 module.exports = new BookSessionLocators();
