@@ -32,10 +32,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TalhaMuhammadIlyas/es.git"
+    "url": "git+https://github.com/RohanUlHaq/Appium-Estenarh.git"
   },
   "bugs": {
-    "url": "https://github.com/TalhaMuhammadIlyas/es/issues"
-  },
-  "homepage": "https://github.com/TalhaMuhammadIlyas/es#readme"
+    "url": "https://github.com/RohanUlHaq/Appium-Estenarh/issues"
+  }
 }
