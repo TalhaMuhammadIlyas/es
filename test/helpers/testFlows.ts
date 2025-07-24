@@ -177,3 +177,28 @@ export async function SavedCardsbookingflow(consultant: string, cvc: string){
         await browser.pause(4000);
         await book_sessionLocators.payment_completebtn.click();
 }
+
+export async function Packagebuy(consultant: string, cvc: string){
+    await book_sessionLocators.searchconsultant.setValue(consultant);
+    await book_sessionLocators.consultant_card.click();
+    await book_sessionLocators.explorepackage.click();
+    await book_sessionLocators.packagebuynow.click();
+    await book_sessionLocators.sessionconfirmation_paynow.click();
+    await book_sessionLocators.wallet_checkbox.click();
+    await book_sessionLocators.continuecheckout_btn.click();
+    await browser.pause(5000);
+    const savedCards = await book_sessionLocators.all_saved_cards;
+        if (savedCards.length > 0) {
+            await savedCards[0].click(); // Click the first saved card
+        } 
+        else {
+                throw new Error('No saved cards found!');
+        }
+    await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
+    await book_sessionLocators.savedcard_confirm_button.click();
+    await browser.pause(12000);
+    await book_sessionLocators.Paybutton_hyperpay.click();
+    await browser.pause(4000);
+    await book_sessionLocators.payment_completebtn.click();
+
+}

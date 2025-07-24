@@ -97,6 +97,13 @@ class BookSessionLocators {
     get logoutbtn() {
         return $('android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollTextIntoView("Log Out")');
     }
+    get explorepackage() {
+        return $('~consultant_profile_explore_packages');
+    }
+    get packagebuynow() {
+        return $('~offered_packages_buy_now_button');
+    }
+    
     
     // get linknum_tabby() {
     //     return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.view.View');

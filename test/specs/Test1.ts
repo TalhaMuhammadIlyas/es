@@ -1,13 +1,10 @@
 /// <reference types="@wdio/globals/types" />
 
-import { SavedCardsbookingflow } from "../helpers/testFlows";
-
-
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
 const forgot_passwordLocators = require('../screenobjects/forgot_password-locators');
 const book_sessionLocators = require('../screenobjects/book_session-locators');
-const { completeLoginFlow, ForgotPassword, SignupFlow, BookSessionTabby } = require('../helpers/testFlows');
+const { completeLoginFlow, ForgotPassword, SignupFlow, BookSessionTabby, SavedCardsbookingflow, Packagebuy } = require('../helpers/testFlows');
 
 describe('Sample', () => {
 
@@ -63,8 +60,12 @@ describe('Sample', () => {
     //     })
 
 
-    it('Book Session with existing client', async() => {
-        await SavedCardsbookingflow('Nawaz Sharif','856');
+    // it('Book Session with existing client', async() => {
+    //     await SavedCardsbookingflow('Nawaz Sharif','856');
+    // })
+
+    it('Package buying', async() => {
+        await Packagebuy('Nawaz Sharif','345');
     })
 
     // it('Forgot Password', async() => {
