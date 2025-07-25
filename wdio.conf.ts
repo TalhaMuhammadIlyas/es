@@ -13,7 +13,6 @@ export const config: any = {
         'appium:deviceName': 'Galaxy S23 Ultra',
         'appium:platformVersion': '15.0',
         'appium:automationName': 'UiAutomator2',
-        // 'appium:app': 'C:/Users/Rohan/Appium-Estenarh/app/TestIDsBuild.apk'
         'appium:app': 'app/TestIDsBuild.apk',
     }],
     logLevel: 'info',
