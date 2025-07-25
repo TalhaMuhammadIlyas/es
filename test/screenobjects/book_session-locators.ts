@@ -23,7 +23,7 @@ class BookSessionLocators {
         return $('~schedule_session_btn_book_session');
     }
     get timeslot_opt() {
-        return $('//android.view.ViewGroup[@content-desc="8:45pm"]/android.view.ViewGroup');
+        return $('//android.view.ViewGroup[@content-desc="8:00pm"]/android.view.ViewGroup');
     }
     get sessionconfirmation_paynow()   {
         return $('~session_confirmation_btn_pay_now');

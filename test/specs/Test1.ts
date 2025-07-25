@@ -7,7 +7,8 @@ const book_sessionLocators = require('../screenobjects/book_session-locators');
 describe('Sample', () => {
 
     // it('Signup flow with fresh build', async () => {
-    //     await browser.pause(5000);
+    //     await browser.pause(10000);
+    //     // await login_screenLocators.Notnow_notifications.click();
     //     await signup_screenLocators.nextbutton.click();
     //     await browser.pause(500);
     //     await signup_screenLocators.nextbutton.click();
@@ -52,17 +53,16 @@ describe('Sample', () => {
     //     await signup_screenLocators.gender_nextbtn.click();
     //     await browser.pause(9000);
     //     // Uncomment and adjust if needed:
-    //     // await $('//android.view.ViewGroup[@content-desc="signup_details_date_picker_date_of_birth"]').click();
-    //     // await $('android=new UiScrollable(new UiSelector().scrollable(true).instance(2)).scrollIntoView(new UiSelector().text("2000"))');
-    //     // await $('//android.widget.Button[@resource-id="android:id/button1"]').click();
-    //     // await $('//android.widget.TextView[@text="Next"]').click();
+    //     await $('//android.view.ViewGroup[@content-desc="signup_details_date_picker_date_of_birth"]').click();
+    //     await $('android=new UiScrollable(new UiSelector().scrollable(true).instance(2)).scrollIntoView(new UiSelector().text("2000"))');
+    //     await $('//android.widget.Button[@resource-id="android:id/button1"]').click();
+    //     await $('//android.widget.TextView[@text="Next"]').click();
     //     await signup_screenLocators.password.setValue('click123');
     //     await signup_screenLocators.confirm_password.setValue('click123');
     //     await signup_screenLocators.password_nextbtn.click();
     //     await expect(signup_screenLocators.welcome_message).toBeDisplayed();
     //     await expect(signup_screenLocators.welcome_message).toHaveText('Glad to have you at Estenarh!');
-    //     // await signup_screenLocators.welcome_nextbtn.click();
-    //     // await login_screenLocators.Notnow_notifications.click();
+    //     await signup_screenLocators.welcome_nextbtn.click();
     // });
 
     // it('Login flow', async () => {
@@ -202,7 +202,7 @@ describe('Sample', () => {
 
 
     it('Book Session with existing client', async() => {
-        await browser.pause(3000); // Add a wait here before interacting with elements
+        await browser.pause(8000); // Add a wait here before interacting with elements
         await login_screenLocators.nextbutton.click();
         await login_screenLocators.nextbutton.click();
         await login_screenLocators.nextbutton.click();
@@ -212,12 +212,13 @@ describe('Sample', () => {
         await login_screenLocators.bottom_nav_menu.click();
         await login_screenLocators.guestmenu_loginbtn.click();
         await login_screenLocators.emailswitcher.click();
-        await login_screenLocators.login_input.setValue('razzaq@yopmail.com')
+        await login_screenLocators.login_input.setValue('rohanulhaq004@gmail.com')
         await login_screenLocators.login_nextbtn.click();
+        await browser.pause(5000);
         await login_screenLocators.password_input.setValue('click123');
         await login_screenLocators.unhide_eyebtn.click();
         await login_screenLocators.password_nextbtn.click();
-        await browser.pause(1000);
+        await browser.pause(5000);
         await login_screenLocators.Notnow_notifications.click();
         await book_sessionLocators.consultant_navbar.click();
         await book_sessionLocators.searchconsultant.setValue('Nawaz Sharif');

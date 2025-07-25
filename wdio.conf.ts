@@ -10,10 +10,11 @@ export const config: any = {
     maxInstances: 10,
     capabilities: [{
         platformName: 'Android',
-        'appium:deviceName': 'Pixel 8',
-        'appium:platformVersion': '16.0',
+        'appium:deviceName': 'Galaxy S23 Ultra',
+        'appium:platformVersion': '15.0',
         'appium:automationName': 'UiAutomator2',
-        'appium:app': 'C:/Users/IOMechs/Documents/es/app/estenarh_v8a.apk'
+        // 'appium:app': 'C:/Users/Rohan/Appium-Estenarh/app/TestIDsBuild.apk'
+        'appium:app': 'app/TestIDsBuild.apk',
     }],
     logLevel: 'info',
     bail: 0,
