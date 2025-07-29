@@ -1,4 +1,12 @@
-import type { Options } from '@wdio/types'
+import type { Options } from '@wdio/types';
+
+interface TestResult {
+    error?: Error;
+    result?: any;
+    duration?: number;
+    passed: boolean;
+    retries: number;
+}
 
 export const config: any = {
     // new commit 
@@ -13,7 +21,7 @@ export const config: any = {
         'appium:deviceName': 'Pixel 5',
         'appium:platformVersion': '14.0',
         'appium:automationName': 'UiAutomator2',
-        'appium:app': 'C:/Users/IOMechs/Documents/es/app/Estenarh_v8a(1).apk',
+        'appium:app': 'C:\\Users\\IOMechs\\Documents\\es\\app\\Estenarh_v8a(1).apk',
         'appium:noReset': true  // This prevents app reinstallation
     }],
     logLevel: 'info',
@@ -23,9 +31,25 @@ export const config: any = {
     connectionRetryCount: 3,
     services: ['appium'],
     framework: 'mocha',
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ['allure', {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: false,
+            disableWebdriverScreenshotsReporting: false,
+            useCucumberStepReporter: false
+        }]
+    ],
     mochaOpts: {
         ui: 'bdd',
         timeout: 150000
+    },
+    afterTest: async function (test: any, context: any, { error, result, duration, passed, retries }: TestResult) {
+        if (!passed) {
+            // Take a screenshot when test fails
+            const timestamp = new Date().toISOString().replace(/[^0-9]/g, '');
+            const screenshotPath = `./screenshots/failed-test-${timestamp}.png`;
+            await browser.saveScreenshot(screenshotPath);
+        }
     },
 };
