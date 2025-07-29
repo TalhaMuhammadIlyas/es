@@ -21,7 +21,7 @@ describe('Estenarh App Test Suite', () => {
     //     allure.addSeverity('critical');
     //     allure.addDescription('Verify user can login with valid credentials', 'text');
     //     allure.startStep('Execute login flow');
-    //     await completeLoginFlow('rohanulhaq004@gmail.com', 'click123');
+    //     await completeLoginFlow('hamzakhan@yopmail.com', 'click123');
     //     allure.endStep();
     // })
 
@@ -29,7 +29,7 @@ describe('Estenarh App Test Suite', () => {
     //     allure.addFeature('Authentication');
     //     allure.addSeverity('critical');
     //     allure.addDescription('Verify new user registration process');
-    //     
+        
     //     allure.startStep('Complete signup process');
     //     await SignupFlow('1234','click123','click123');
     //     allure.endStep();
@@ -72,6 +72,7 @@ describe('Estenarh App Test Suite', () => {
     //     await BookSessionTabby('Nawaz Sharif','card.success@tabby.ai','500000001','8888');
     //     allure.endStep();
     // });
+
     it('Gift Wallet Flow', async () => {
         allure.addFeature('Gift Wallet');
         allure.addSeverity('critical');

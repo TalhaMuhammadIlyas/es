@@ -18,10 +18,10 @@ export const config: any = {
     maxInstances: 10,
     capabilities: [{
         platformName: 'Android',
-        'appium:deviceName': 'Galaxy S23 Ultra',
-        'appium:platformVersion': '15.0',
+        'appium:deviceName': 'Pixel 5',
+        'appium:platformVersion': '14.0',
         'appium:automationName': 'UiAutomator2',
-        'appium:app': 'app/app-staging-release.apk',
+        'appium:app': 'C:\\Users\\IOMechs\\Documents\\es\\app\\Estenarh_v8a(1).apk',
         'appium:noReset': true  // This prevents app reinstallation
     }],
     logLevel: 'info',

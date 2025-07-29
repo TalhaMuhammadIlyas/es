@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Appium test using webdriver-io",
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "wdio": "wdio run ./wdio.conf.ts",
     "report": "allure serve allure-results",
     "clean:allure": "rimraf allure-results && rimraf allure-report && rimraf screenshots"
-},
+  },
   "keywords": [
     "webdriverio",
     "appium"
