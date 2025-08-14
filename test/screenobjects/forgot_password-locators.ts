@@ -1,4 +1,3 @@
-import { $ } from "@wdio/globals";
 class ForgotPasswordLocators {
     get bottom_nav_menu() {
         return $('~Menu');
