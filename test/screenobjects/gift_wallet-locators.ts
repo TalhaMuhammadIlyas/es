@@ -1,5 +1,3 @@
-import { $ } from "@wdio/globals";
-console.log('Loaded gift_wallet-locators');
 class GiftWalletLocators {
     get bottom_nav_menu() {
         return $('~Menu');

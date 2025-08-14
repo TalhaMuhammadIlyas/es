@@ -1,4 +1,3 @@
-import { $ } from "@wdio/globals";
 class LoginScreenLocators {
     get nextbutton() {
         return $('~app_tour_footer_btn_next');

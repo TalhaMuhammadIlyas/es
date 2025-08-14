@@ -1,5 +1,3 @@
-import { $ } from "@wdio/globals";
-console.log('Loaded book_session-locators');
 class BookSessionLocators {
     get consultant_navbar() {
         return $('//android.view.View[@content-desc="Consultants"]/android.view.ViewGroup');
