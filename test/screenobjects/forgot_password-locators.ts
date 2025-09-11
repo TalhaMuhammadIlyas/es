@@ -6,22 +6,19 @@ class ForgotPasswordLocators {
         return $('~menu_btn_login');
     }
     get emailswitcher() {
-        return $('//android.view.ViewGroup[@resource-id="login_switcher"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup');
+        return $('~login_switcher_email_option');
     }
     get login_input() {
         return $('~login_input_email');
     }
-    get login_nextbtn() {
+    get nextbtn() {
         return $('~login_btn_next');
     }
     get forgot_pwdlink() {
         return $('//android.widget.TextView[@text="Forgot Password?"]');
     }
-    get resetpassword_btn() {
-        return $('~login_btn_next');
-    }
     get otp() {
-        return $('//android.widget.EditText');
+        return $('~verification_code_field');
     }
     get otp_nextbtn() {
         return $('~verification_btn_next');
