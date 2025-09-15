@@ -112,10 +112,10 @@ class BookSessionLocators {
     //     return $('//android.widget.EditText[@text="talha.ilyas@mailinator.com"]');
     // }
     get testemailtabby() {
-        return $('//android.widget.EditText[@resource-id=":r0:"]');
+        return $('//android.widget.EditText');
     }
     get tabbyloginphone() {
-        return $('//android.widget.EditText[@resource-id=":r2:"]');
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText');
     }
     get closekeyboard() {
         return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View');
@@ -124,10 +124,11 @@ class BookSessionLocators {
         return $('//android.widget.Button[@text="Continue"]');
     }
     get tabbyotp() {
-        return $('//android.widget.EditText[@resource-id=":r3:"]');
+        // Simplified XPath that's less dependent on exact view hierarchy
+        return $('//android.view.View[@resource-id="tabby-checkout"]//android.widget.EditText[contains(@text, "")]');
     }
     get tabbytermscheckbox() {
-        return $('//android.widget.Image');
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View/android.view.View/android.view.View[4]/android.widget.Image');
     }
     // get paytabbybtn() {
     //     return $('//android.widget.Button[@text="Pay 47.42 SAR"]');

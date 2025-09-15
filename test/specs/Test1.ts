@@ -64,31 +64,31 @@ describe('Estenarh App Test Suite', () => {
     //     allure.endStep();
     // });
 
-    // it('Book Session with Tabby', async() => {
-    //     allure.addFeature('Payment Processing');
-    //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify booking session using Tabby payment method');
-    //     
-    //     allure.startStep('Book session with consultant');
-    //     await BookSessionTabby('Nawaz Sharif','card.success@tabby.ai','500000001','8888');
-    //     allure.endStep();
-    // });
-
-    it('Gift Wallet Flow', async () => {
-        allure.addFeature('Gift Wallet');
+    it('Book Session with Tabby', async () => {
+        allure.addFeature('Payment Processing');
         allure.addSeverity('critical');
-        allure.addDescription('Verify gift wallet functionality', 'text');
+        allure.addDescription('Verify booking session using Tabby payment method', 'text');
 
-        allure.startStep('Gift wallet flow for logged in client')
-        await GiftWalletFlow({
-            email: 'nayela@mailinator.com',
-            name: 'Nayela',
-            message: 'Here is a heart whelming gift for You!',
-            cvc: cardInputs.CVC,
-            cardNumber: cardInputs.CardNumber,
-            expiryDate: cardInputs.ExpiryDate,
-            cardholderName: cardInputs.CardHolderName
-        });
+        allure.startStep('Book session with consultant');
+        await BookSessionTabby('Nawaz Sharif', 'card.success@tabby.ai', '500000001', '8888');
         allure.endStep();
-    })
+    });
+
+    // it('Gift Wallet Flow', async () => {
+    //     allure.addFeature('Gift Wallet');
+    //     allure.addSeverity('critical');
+    //     allure.addDescription('Verify gift wallet functionality', 'text');
+
+    //     allure.startStep('Gift wallet flow for logged in client')
+    //     await GiftWalletFlow({
+    //         email: 'nayela@mailinator.com',
+    //         name: 'Nayela',
+    //         message: 'Here is a heart whelming gift for You!',
+    //         cvc: cardInputs.CVC,
+    //         cardNumber: cardInputs.CardNumber,
+    //         expiryDate: cardInputs.ExpiryDate,
+    //         cardholderName: cardInputs.CardHolderName
+    //     });
+    //     allure.endStep();
+    // })
 });

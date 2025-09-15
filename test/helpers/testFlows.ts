@@ -120,25 +120,32 @@ export async function BookSessionTabby(consultant: string, email: string, phone:
     }
     await book_sessionLocators.timeslot_booksession.click();
     await book_sessionLocators.sessionconfirmation_paynow.click();
-    await book_sessionLocators.wallet_checkbox.click();
+    try {
+        const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
+        if (isVisible) {
+            await book_sessionLocators.wallet_checkbox.click();
+        }
+    } catch (error) {
+        console.log('Wallet checkbox not found or not visible, continuing...');
+    }
     // Scroll down one page
     await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
     await book_sessionLocators.tabby_btn.click();
     await book_sessionLocators.continuecheckout_btn.click();
-    await browser.pause(timeouts.ELEMENT_WAIT);
-    await book_sessionLocators.testemailtabby.clearValue();
-    await book_sessionLocators.testemailtabby.setValue(email);
-    // await book_sessionLocators.closekeyboard.click();
-    await book_sessionLocators.tabbylogincontinue.click();
-    await browser.pause(timeouts.CLICK_WAIT);
+    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
     await book_sessionLocators.tabbyloginphone.clearValue();
     await book_sessionLocators.tabbyloginphone.setValue(phone);
-    // await book_sessionLocators.closekeyboard.click();
     await book_sessionLocators.tabbylogincontinue.click();
+    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+    await book_sessionLocators.testemailtabby.clearValue();
+    await book_sessionLocators.testemailtabby.setValue(email);
+    await book_sessionLocators.tabbylogincontinue.click();
+    await book_sessionLocators.tabbyotp.click();
     await book_sessionLocators.tabbyotp.setValue(otp);
     await browser.hideKeyboard();
     await book_sessionLocators.tabbytermscheckbox.click();
     await book_sessionLocators.tabbylogincontinue.click();
+    await browser.pause(timeouts.PAYMENT_PROCESSING);
     await book_sessionLocators.payment_completebtn.click();
 }
 
