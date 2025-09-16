@@ -71,14 +71,12 @@ class BookSessionLocators {
     get cvc() {
         return $('~cvc_input');
     }
-    get cardholder_name() {
-        return $('~cardholder_name_input');
+    get tabbyotp() {
+        // Simplified XPath that's less dependent on exact view hierarchy
+        return $('//android.view.View[@resource-id="tabby-checkout"]//android.widget.EditText[contains(@text, "")]');
     }
-    get savecard_checkbox() {
-        return $('~save_card_checkbox');
-    }
-    get card_paynow() {
-        return $('~card_pay_now');
+    get tabbytermscheckbox() {
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View/android.view.View/android.view.View[4]/android.widget.Image');
     }
 }
 

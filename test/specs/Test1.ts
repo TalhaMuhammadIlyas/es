@@ -1,5 +1,6 @@
 /// <reference types="@wdio/globals/types" />
 import allure from '@wdio/allure-reporter';
+import { cardInputs } from '../constants/cardDetails';
 
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
@@ -99,4 +100,5 @@ describe('Estenarh App Test Suite', () => {
         await AnxietyQuestionnaire();
         allure.endStep();
     });
+
 });
