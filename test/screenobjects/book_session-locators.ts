@@ -63,61 +63,14 @@ class BookSessionLocators {
         return $('~pay_by_card_input_expiry');
     }
     get cvc() {
-        return $('~pay_by_card_input_cvc');
-    }
-    get savecard_checkbox() {
-        return $('~pay_by_card_save_info');
-    }
-    get hide_keyboard() {
-        return $('//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]');
-    }
-    get card_paynow() {
-        return $('~pay_by_card_btn_pay_now');
-    }
-    get Paybutton_hyperpay() {
-        return $('//android.widget.Button[@text="Pay"]');
-    }
-    get chatbtn() {
-        return $('(//android.widget.Button[@content-desc="menu_btn_view_profile"])[2]');
-    }
-    get messagebox() {
-        return $('~chat_message_input');
-    }
-    get sendmsgicon() {
-        return $('//android.view.ViewGroup[@resource-id="GC_WRAPPER"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView');
-    }
-    get backicon_chat() {
-        return $('//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup[1]');
-    }
-    get menu_navbar() {
-        return $('//android.view.View[@content-desc="Menu"]');
-    }
-    get logoutbtn() {
-        return $('android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollTextIntoView("Log Out")');
-    }
-    get explorepackage() {
-        return $('~consultant_profile_explore_packages');
-    }
-    get packagebuynow() {
-        return $('~offered_packages_buy_now_button');
-    }
-    get testemailtabby() {
-        return $('//android.widget.EditText[@resource-id=":r0:"]');
-    }
-    get tabbyloginphone() {
-        return $('//android.widget.EditText[@resource-id=":r2:"]');
-    }
-    get closekeyboard() {
-        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View');
-    }
-    get tabbylogincontinue() {
-        return $('//android.widget.Button[@text="Continue"]');
+        return $('~cvc_input');
     }
     get tabbyotp() {
-        return $('//android.widget.EditText[@resource-id=":r3:"]');
+        // Simplified XPath that's less dependent on exact view hierarchy
+        return $('//android.view.View[@resource-id="tabby-checkout"]//android.widget.EditText[contains(@text, "")]');
     }
     get tabbytermscheckbox() {
-        return $('//android.widget.Image');
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View/android.view.View/android.view.View[4]/android.widget.Image');
     }
 }
 

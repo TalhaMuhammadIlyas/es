@@ -1,5 +1,6 @@
 /// <reference types="@wdio/globals/types" />
 import allure from '@wdio/allure-reporter';
+import { cardInputs } from '../constants/cardDetails';
 
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
@@ -91,12 +92,13 @@ describe('Estenarh App Test Suite', () => {
     // //     allure.endStep();
     // })
 
-    // it('Anxiety Questionnaire', async () => {
-    //     allure.addFeature('Anxiety Questionnaire');
-    //     allure.addSeverity('critical');
-    //     allure.addDescription('Take Anxiety Questionnaire', 'text');
-    //     allure.startStep('Navigate to Anxiety Questionnaire');
-    //     await AnxietyQuestionnaire();
-    //     allure.endStep();
-    // });
+    it('Anxiety Questionnaire', async () => {
+        allure.addFeature('Anxiety Questionnaire');
+        allure.addSeverity('critical');
+        allure.addDescription('Take Anxiety Questionnaire', 'text');
+        allure.startStep('Navigate to Anxiety Questionnaire');
+        await AnxietyQuestionnaire();
+        allure.endStep();
+    });
+
 });
