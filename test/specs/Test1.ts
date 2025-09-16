@@ -22,7 +22,7 @@ describe('Estenarh App Test Suite', () => {
         allure.addSeverity('critical');
         allure.addDescription('Verify user can login with valid credentials', 'text');
         allure.startStep('Execute login flow');
-        await completeLoginFlow('hamzakhan@yopmail.com', 'click123');
+        await completeLoginFlow('talha.ilyas@mailinator.com', 'click123');
         allure.endStep();
     })
 
@@ -63,15 +63,15 @@ describe('Estenarh App Test Suite', () => {
     //     allure.endStep();
     // });
 
-    // it('Book Session with Tabby', async() => {
-    //     allure.addFeature('Payment Processing');
-    //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify booking session using Tabby payment method');
-    //     
-    //     allure.startStep('Book session with consultant');
-    //     await BookSessionTabby('Nawaz Sharif','card.success@tabby.ai','500000001','8888');
-    //     allure.endStep();
-    // });
+    it('Book Session with Tabby', async() => {
+        allure.addFeature('Payment Processing');
+        allure.addSeverity('critical');
+        allure.addDescription('Verify booking session using Tabby payment method', 'text');
+        
+        allure.startStep('Book session with consultant');
+        await BookSessionTabby('Nawaz Sharif','card.success@tabby.ai','500000001','8888');
+        allure.endStep();
+    });
 
     // it('Gift Wallet Flow', async () => {
     //     allure.addFeature('Gift Wallet');
@@ -91,12 +91,12 @@ describe('Estenarh App Test Suite', () => {
     // //     allure.endStep();
     // })
 
-    it('Anxiety Questionnaire', async () => {
-        allure.addFeature('Anxiety Questionnaire');
-        allure.addSeverity('critical');
-        allure.addDescription('Take Anxiety Questionnaire', 'text');
-        allure.startStep('Navigate to Anxiety Questionnaire');
-        await AnxietyQuestionnaire();
-        allure.endStep();
-    });
+    // it('Anxiety Questionnaire', async () => {
+    //     allure.addFeature('Anxiety Questionnaire');
+    //     allure.addSeverity('critical');
+    //     allure.addDescription('Take Anxiety Questionnaire', 'text');
+    //     allure.startStep('Navigate to Anxiety Questionnaire');
+    //     await AnxietyQuestionnaire();
+    //     allure.endStep();
+    // });
 });

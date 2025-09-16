@@ -18,10 +18,10 @@ export const config: any = {
     maxInstances: 10,
     capabilities: [{
         platformName: 'Android',
-        'appium:deviceName': 'Talha A51',
+        'appium:deviceName': 'Pixel 4a',
         'appium:platformVersion': '13.0',
         'appium:automationName': 'UiAutomator2',
-        'appium:app': 'D:\\Automation\\Estenarh\\es\\app\\Estenarh_v8a.apk',
+        'appium:app': 'C:\\Users\\IOMechs\\Documents\\es\\app\\Estenarh.apk',
         'appium:noReset': true  // This prevents app reinstallation
     }],
     logLevel: 'info',

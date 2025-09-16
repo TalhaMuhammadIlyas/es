@@ -110,10 +110,10 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
     await signup_screenLocators.otp.setValue(otp);
     await signup_screenLocators.otp_nextbtn.click();
     await signup_screenLocators.input_name.setValue(generateRandomName());
-    await signup_screenLocators.signup_nextbtn.click();
+    await signup_screenLocators.inputname_nextbtn.click();
     await signup_screenLocators.gender_bottomsheet.click();
     await signup_screenLocators.male_optionselect.click();
-    await signup_screenLocators.signup_nextbtn.click();
+    await signup_screenLocators.inputname_nextbtn.click();
     await browser.pause(2000);
     
     // Handle date picker for date of birth
@@ -123,10 +123,10 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
     await scrollNumberPicker('2015', '2019'); 
     
     await $('//android.widget.Button[@resource-id="android:id/button1"]').click();
-    await signup_screenLocators.signup_nextbtn.click();
+    await signup_screenLocators.inputname_nextbtn.click();
     await signup_screenLocators.password.setValue(password);
     await signup_screenLocators.confirm_password.setValue(confirmpassword);
-    await signup_screenLocators.signup_nextbtn.click();
+    await signup_screenLocators.inputname_nextbtn.click();
     await expect(signup_screenLocators.welcome_message).toBeDisplayed();
     await expect(signup_screenLocators.welcome_message).toHaveText('Glad to have you at Estenarh!');
     await signup_screenLocators.welcome_nextbtn.click();
