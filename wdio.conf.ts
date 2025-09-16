@@ -21,7 +21,7 @@ export const config: any = {
         'appium:deviceName': 'Pixel 4a',
         'appium:platformVersion': '13.0',
         'appium:automationName': 'UiAutomator2',
-        'appium:app': './app/app-staging-release.apk',
+        'appium:app': './app/Estenarh.apk',
         'appium:noReset': true,
         'appium:autoGrantPermissions': true,
         'appium:newCommandTimeout': 240
