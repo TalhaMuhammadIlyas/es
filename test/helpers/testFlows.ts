@@ -138,7 +138,7 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
     await expect(signup_screenLocators.welcome_message).toBeDisplayed();
     await expect(signup_screenLocators.welcome_message).toHaveText('Glad to have you at Estenarh!');
     await signup_screenLocators.welcome_nextbtn.click();
-    await login_screenLocators.Notnow_notifications.click();
+    // await login_screenLocators.Notnow_notifications.click();
 }
 
 export async function BookSessionTabby(consultant: string, email: string, phone: string, otp: string) {
@@ -182,16 +182,16 @@ export async function BookSessionTabby(consultant: string, email: string, phone:
         console.log('Email login not visible, continuing...');
     }
     await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    try {
-        const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
-        if (loginEmailVisible) {
-            await book_sessionLocators.testemailtabby.clearValue();
-            await book_sessionLocators.testemailtabby.setValue(email);
-            await book_sessionLocators.tabbylogincontinue.click();
-        }
-    } catch (error) {
-        console.log('Email login not visible, continuing...');
-    }
+    // try {
+    //     const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
+    //     if (loginEmailVisible) {
+    //         await book_sessionLocators.testemailtabby.clearValue();
+    //         await book_sessionLocators.testemailtabby.setValue(email);
+    //         await book_sessionLocators.tabbylogincontinue.click();
+    //     }
+    // } catch (error) {
+    //     console.log('Email login not visible, continuing...');
+    // }
     await book_sessionLocators.tabbyotp.click();
     await book_sessionLocators.tabbyotp.setValue(otp);
     await browser.hideKeyboard();

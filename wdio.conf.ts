@@ -18,11 +18,11 @@ export const config: any = {
     maxInstances: 10,
     capabilities: [{
         platformName: 'Android',
-        'appium:deviceName': 'Talha A51',
+        'appium:deviceName': 'Pixel 4a',
         'appium:platformVersion': '13.0',
         'appium:automationName': 'UiAutomator2',
-        'appium:app': './app/app-staging-release.apk',
-        'appium:noReset': true,
+        'appium:app': './app/Estenarh.apk',
+        'appium:noReset': false,
         'appium:autoGrantPermissions': true,
         'appium:newCommandTimeout': 240
     }],
