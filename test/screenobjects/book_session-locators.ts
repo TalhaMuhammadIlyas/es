@@ -5,8 +5,11 @@ class BookSessionLocators {
     get searchconsultant() {
         return $('~consultant_list_input_search');
     }
-    get consultant_card() {
-        return $('//android.view.ViewGroup[@content-desc="consultant_list_consultant_card_823"]/android.view.ViewGroup');
+    get consultant_card_package() {
+        return $('consultant_list_consultant_card_777');
+    }
+    booking_consultant_card(name: string) {
+        return $(`//android.widget.TextView[@text='${name}']/ancestor::android.view.ViewGroup[contains(@resource-id,"consultant_list_consultant_card_")]`);
     }
     get consultant_card_newuser() {
         return $('//android.view.ViewGroup[@content-desc="Recommended, Ahmed Consultant, Social Worker, 52 Reviews, # Next available at 12:00 PM, 391.00 SAR, 351.90 SAR"]/android.view.ViewGroup');
@@ -22,6 +25,11 @@ class BookSessionLocators {
     }
     get all_timeslots() {
         return $$('//android.view.ViewGroup[contains(@content-desc, "am") or contains(@content-desc, "pm")]/android.view.ViewGroup');
+    }
+    session_time(time: string) {
+        // Locate the text, then go up to the parent card container
+        return $(`//android.widget.TextView[@text='${time}']/ancestor::android.view.ViewGroup[@resource-id='${time}']`);
+
     }
     get sessionconfirmation_paynow()   {
         return $('~session_confirmation_btn_pay_now');
@@ -53,6 +61,12 @@ class BookSessionLocators {
     get payment_completebtn() {
         return $('~payment_complete_btn_done');
     }
+    get payment_successmsg() {
+        return $('//android.widget.TextView[@text="Your payment is complete! Your session has been successfully booked"]');
+    }
+    get package_Suceessmsg() {
+        return $('//android.widget.TextView[@text="You’ve successfully purchased a package with Ahmed Ali"]');
+    }
     get card_number() {
         return $('~pay_by_card_input_card_number');
     }
@@ -64,6 +78,15 @@ class BookSessionLocators {
     }
     get cvc() {
         return $('~cvc_input');
+    }
+    get explorepackage() {
+        return $('~consultant_profile_explore_packages');
+    }
+    get packagebuynow() {
+        return $('~offered_packages_buy_now_button');
+    }
+    get Paybutton_hyperpay() {
+        return $('//android.widget.Button[@text="Pay"]');
     }
     get tabbyotp() {
         // Simplified XPath that's less dependent on exact view hierarchy

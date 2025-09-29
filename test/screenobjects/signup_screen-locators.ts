@@ -44,6 +44,9 @@ class SignupScreenLocators {
     get date_picker() {
         return $('~signup_details_date_picker_date_of_birth');
     }
+    get confirm_datepicker_btn() {
+        return $('//android.widget.Button[@resource-id="android:id/button1"]');
+    }
     get month_datepick() {
         return $('//android.widget.NumberPicker[1]');
     }

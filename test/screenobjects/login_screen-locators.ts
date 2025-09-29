@@ -29,9 +29,6 @@ class LoginScreenLocators {
     get password_nextbtn() {
         return $('~login_btn_next');
     }
-    get Notnow_notifications() {
-        return $('~Not Now');
-    }
 }
 
 module.exports = new LoginScreenLocators();
