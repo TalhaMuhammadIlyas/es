@@ -11,12 +11,6 @@ class BookSessionLocators {
     booking_consultant_card(name: string) {
         return $(`//android.widget.TextView[@text='${name}']/ancestor::android.view.ViewGroup[contains(@resource-id,"consultant_list_consultant_card_")]`);
     }
-    get consultant_card_newuser() {
-        return $('//android.view.ViewGroup[@content-desc="Recommended, Ahmed Consultant, Social Worker, 52 Reviews, # Next available at 12:00 PM, 391.00 SAR, 351.90 SAR"]/android.view.ViewGroup');
-    }
-    get consultant_AR() {
-        return $('//android.view.ViewGroup[@content-desc="Recommended, Adil Rasheed, Psychiatrist, 9 Reviews, # Next available at 12:00 PM, 138.00 SAR, 124.20 SAR"]');
-    }
     get book_sessionbtn() {
         return $('~consultant_profile_book_session');
     }
@@ -29,16 +23,12 @@ class BookSessionLocators {
     session_time(time: string) {
         // Locate the text, then go up to the parent card container
         return $(`//android.widget.TextView[@text='${time}']/ancestor::android.view.ViewGroup[@resource-id='${time}']`);
-
     }
     get sessionconfirmation_paynow()   {
         return $('~session_confirmation_btn_pay_now');
     }
     get continuecheckout_btn() {
         return $('~checkout_button_buy_now');
-    }
-    get partnerwallet_checkbox() {
-        return $('~Partner Wallet, 480.52 SAR');
     }
     get wallet_checkbox() {
         return $('~wallet_card');
@@ -48,6 +38,22 @@ class BookSessionLocators {
     }
     get all_saved_cards() {
         return $$('//android.view.ViewGroup[contains(@content-desc, "saved_card_")]/android.view.ViewGroup');
+    }
+    saved_card(name: string) {
+        return $(`//android.widget.TextView[@text='${name}']/ancestor::android.view.ViewGroup[contains(@resource-id,"saved_card_")]`);
+    }
+    get savedcard_addnewbtn() {
+        return $('~saved_cards_add_new_card_button')
+    }
+    get savecard_checkbox() {
+        return $('~pay_by_card_save_info');
+    }
+    get card_paynow() {
+        return $('~pay_by_card_btn_pay_now');
+    }
+    // use when the pay now is not visible
+    get close_keyboard() {
+        return $('//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup');
     }
     get savedcard_input_cvc() {
         return $('~saved_card_input_cvc');
@@ -77,7 +83,7 @@ class BookSessionLocators {
         return $('~pay_by_card_input_expiry');
     }
     get cvc() {
-        return $('~cvc_input');
+        return $('~pay_by_card_input_cvc');
     }
     get explorepackage() {
         return $('~consultant_profile_explore_packages');
