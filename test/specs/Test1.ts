@@ -44,13 +44,8 @@ describe('Estenarh App Test Suite', () => {
     //     allure.addFeature('Package Purchase');
     //     allure.addSeverity('critical');
     //     allure.addDescription('Verify user can purchase a consultation package', 'text');
-
-    //     allure.startStep('Search for consultant');
-    //     await book_sessionLocators.searchconsultant.setValue('Nawaz Sharif');
-    //     allure.endStep();
-
     //     allure.startStep('Select and purchase package');
-    //     await Packagebuy('Nawaz Sharif','345');
+    //     await Packagebuy('Ahmed Ali','345');
     //     allure.endStep();
     // });
 
