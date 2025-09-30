@@ -1,5 +1,6 @@
 import { browser } from '@wdio/globals';
 import { timeouts } from '../constants/timeouts';
+import { cardInputs } from '../constants/cardDetails';
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const book_sessionLocators = require('../screenobjects/book_session-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
@@ -50,7 +51,7 @@ export async function completeLoginFlow(email: string, password: string) {
 
     // Handle notifications
     await browser.pause(timeouts.CLICK_WAIT);
-    await login_screenLocators.Notnow_notifications.click();
+    // await login_screenLocators.Notnow_notifications.click();
 }
 
 export async function ForgotPassword(email: string, otp: string, password: string, confirmpassword: string) {
@@ -115,13 +116,6 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
     await signup_screenLocators.gender_bottomsheet.click();
     await signup_screenLocators.male_optionselect.click();
     await signup_screenLocators.gender_nextbtn.click();
-    // Uncomment and adjust if needed:
-    // await $('//android.view.ViewGroup[@content-desc="signup_details_date_picker_date_of_birth"]').click();
-    // await $('android=new UiScrollable(new UiSelector().scrollable(true).instance(2)).scrollIntoView(new UiSelector().text("2000"))');
-    // await $('//android.widget.Button[@resource-id="android:id/button1"]').click();
-    // await $('//android.widget.TextView[@text="Next"]').click()
-    // await signup_screenLocators.signup_nextbtn.click();
-    // await browser.pause(2000);
     
     // Handle date picker for date of birth
     await signup_screenLocators.date_picker.click();
@@ -137,7 +131,6 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
     await expect(signup_screenLocators.welcome_message).toBeDisplayed();
     await expect(signup_screenLocators.welcome_message).toHaveText('Glad to have you at Estenarh!');
     await signup_screenLocators.welcome_nextbtn.click();
-    await login_screenLocators.Notnow_notifications.click();
 }
 
 export async function BookSessionTabby(consultant: string, email: string, phone: string, otp: string) {
@@ -145,116 +138,14 @@ export async function BookSessionTabby(consultant: string, email: string, phone:
     await book_sessionLocators.searchconsultant.setValue(consultant);
     await book_sessionLocators.booking_instant_card(consultant).click();
     await book_sessionLocators.book_sessionbtn.click();
-    const timeslots = await book_sessionLocators.all_timeslots;
-    if (timeslots.length > 0) {
-        await timeslots[0].click(); // Click the first available slot
-    } else {
-        throw new Error('No available time slots found!');
-    }
     await book_sessionLocators.session_time('9:15pm').click();
-    // await book_sessionLocators.timeslot_booksession.click();
-    // await book_sessionLocators.sessionconfirmation_paynow.click();
-    // try {
-    //     const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
-    //     if (isVisible) {
-    //         await book_sessionLocators.wallet_checkbox.click();
-    //     }
-    // } catch (error) {
-    //     console.log('Wallet checkbox not found or not visible, continuing...');
-    // }
-    // // Scroll down one page
-    // await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
-    // await book_sessionLocators.tabby_btn.click();
-    // await book_sessionLocators.continuecheckout_btn.click();
-    // await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    // try {
-    //     const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
-    //     if (loginEmailVisible) {
-    //         await book_sessionLocators.testemailtabby.clearValue();
-    //         await book_sessionLocators.testemailtabby.setValue(email);
-    //         await book_sessionLocators.tabbylogincontinue.click();
-    //         await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    //         await book_sessionLocators.tabbyloginphone.clearValue();
-    //         await book_sessionLocators.tabbyloginphone.setValue(phone);
-    //         await book_sessionLocators.tabbylogincontinue.click();
-    //     }
-    // } catch (error) {
-    //     console.log('Email login not visible, continuing...');
-    // }
-    // await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    // try {
-    //     const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
-    //     if (loginEmailVisible) {
-    //         await book_sessionLocators.testemailtabby.clearValue();
-    //         await book_sessionLocators.testemailtabby.setValue(email);
-    //         await book_sessionLocators.tabbylogincontinue.click();
-    //     }
-    // } catch (error) {
-    //     console.log('Email login not visible, continuing...');
-    // }
-    // await book_sessionLocators.tabbyotp.click();
-    // await book_sessionLocators.tabbyotp.setValue(otp);
-    // await browser.hideKeyboard();
-    // await book_sessionLocators.tabbytermscheckbox.click();
-    // await book_sessionLocators.tabbylogincontinue.click();
-    // await browser.pause(timeouts.PAYMENT_PROCESSING);
-    // await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
-    // await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
-    // await book_sessionLocators.payment_completebtn.click();
-}
-
-export async function SavedCardsbookingflow(consultant: string, cvc: string) {
-    await book_sessionLocators.searchconsultant.setValue(consultant);
-    await book_sessionLocators.booking_consultant_card('Nawaz Sharif').click();
-    // await book_sessionLocators.book_sessionbtn.click();
     // const timeslots = await book_sessionLocators.all_timeslots;
     // if (timeslots.length > 0) {
     //     await timeslots[0].click(); // Click the first available slot
     // } else {
     //     throw new Error('No available time slots found!');
     // }
-    // await book_sessionLocators.timeslot_booksession.click();
-    // await book_sessionLocators.sessionconfirmation_paynow.click();
-    // try {
-    //     const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
-    //     if (isVisible) {
-    //         await book_sessionLocators.wallet_checkbox.click();
-    //     }
-    // } catch (error) {
-    //     console.log('Wallet checkbox not found or not visible, continuing...');
-    // }
-    // await book_sessionLocators.continuecheckout_btn.click();
-    // await browser.pause(timeouts.NAVIGATION);
-    // const savedCards = await book_sessionLocators.all_saved_cards;
-    // if (savedCards.length > 0) {
-    //     await savedCards[0].click(); // Click the first saved card
-    // } else {
-    //     throw new Error('No saved cards found!');
-    // }
-    // await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
-    // await book_sessionLocators.savedcard_confirm_button.click();
-    // // await book_sessionLocators.card_number.setValue(4111111111111111);
-    // // await browser.pause(2000);
-    // // await book_sessionLocators.expiry_date.setValue(1235);  
-    // // await book_sessionLocators.cvc.setValue(258);
-    // // await book_sessionLocators.cardholder_name.setValue('Test');
-    // // await book_sessionLocators.hide_keyboard.click();
-    // // await book_sessionLocators.savecard_checkbox.click();
-    // // await browser.pause(3000);
-    // // await book_sessionLocators.card_paynow.click();
-    // await browser.pause(timeouts.PAYMENT_PROCESSING);
-    // await book_sessionLocators.Paybutton_hyperpay.click();
-    // await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    // await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
-    // await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
-    // await book_sessionLocators.payment_completebtn.click();
-}
-
-export async function Packagebuy(consultant: string, cvc: string) {
-    await book_sessionLocators.searchconsultant.setValue(consultant);
-    await book_sessionLocators.consultant_card_package.click();
-    await book_sessionLocators.explorepackage.click();
-    await book_sessionLocators.packagebuynow.click();
+    await book_sessionLocators.timeslot_booksession.click();
     await book_sessionLocators.sessionconfirmation_paynow.click();
     try {
         const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
@@ -264,23 +155,158 @@ export async function Packagebuy(consultant: string, cvc: string) {
     } catch (error) {
         console.log('Wallet checkbox not found or not visible, continuing...');
     }
+    // Scroll down one page
+    await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
+    await book_sessionLocators.tabby_btn.click();
+    await book_sessionLocators.continuecheckout_btn.click();
+    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+    try {
+        const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
+        if (loginEmailVisible) {
+            await book_sessionLocators.testemailtabby.clearValue();
+            await book_sessionLocators.testemailtabby.setValue(email);
+            await book_sessionLocators.tabbylogincontinue.click();
+            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+            await book_sessionLocators.tabbyloginphone.clearValue();
+            await book_sessionLocators.tabbyloginphone.setValue(phone);
+            await book_sessionLocators.tabbylogincontinue.click();
+        }
+    } catch (error) {
+        console.log('Email login not visible, continuing...');
+    }
+    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+    try {
+        const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
+        if (loginEmailVisible) {
+            await book_sessionLocators.testemailtabby.clearValue();
+            await book_sessionLocators.testemailtabby.setValue(email);
+            await book_sessionLocators.tabbylogincontinue.click();
+        }
+    } catch (error) {
+        console.log('Email login not visible, continuing...');
+    }
+    await book_sessionLocators.tabbyotp.click();
+    await book_sessionLocators.tabbyotp.setValue(otp);
+    await browser.hideKeyboard();
+    await book_sessionLocators.tabbytermscheckbox.click();
+    await book_sessionLocators.tabbylogincontinue.click();
+    await browser.pause(timeouts.PAYMENT_PROCESSING);
+    await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
+    await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
+    await book_sessionLocators.payment_completebtn.click();
+}
+
+export async function SavedCardsbookingflow(consultant: string, cvc: string) {
+    await book_sessionLocators.searchconsultant.setValue(consultant);
+    await book_sessionLocators.booking_consultant_card('Nawaz Sharif').click();
+    await book_sessionLocators.book_sessionbtn.click();
+    // await book_sessionLocators.session_time('9:15pm').click();
+    const timeslots = await book_sessionLocators.all_timeslots;
+    if (timeslots.length > 0) {
+        await timeslots[0].click(); // Click the first available slot
+    } else {
+        throw new Error('No available time slots found!');
+    }
+    await book_sessionLocators.timeslot_booksession.click();
+    await book_sessionLocators.sessionconfirmation_paynow.click();
+    try {
+        await browser.pause(timeouts.ELEMENT_WAIT);
+        const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
+        if (isVisible) {
+            await book_sessionLocators.wallet_checkbox.click();
+        }
+    } catch (error) {
+        console.log('Wallet checkbox not found or not visible, continuing...');
+    }
     await book_sessionLocators.continuecheckout_btn.click();
     await browser.pause(timeouts.NAVIGATION);
-    const savedCards = await book_sessionLocators.all_saved_cards;
-    if (savedCards.length > 0) {
-        await savedCards[0].click(); // Click the first saved card
+    try {
+        const isVisible = await book_sessionLocators.saved_card("Visa **** **** **** 1111").isDisplayed();
+        if (isVisible) {
+            await book_sessionLocators.saved_card("Visa **** **** **** 1111").click();
+            await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
+            await book_sessionLocators.savedcard_confirm_button.click();
+            await browser.pause(timeouts.PAYMENT_PROCESSING);
+            await book_sessionLocators.Paybutton_hyperpay.click();
+            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+            await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
+            await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
+            await book_sessionLocators.payment_completebtn.click();
+        }
+        else{
+            await book_sessionLocators.savedcard_addnewbtn.click();
+            await book_sessionLocators.card_number.setValue(cardInputs.CardNumber);
+            await book_sessionLocators.expiry_date.setValue(cardInputs.ExpiryDate);  
+            await book_sessionLocators.cvc.setValue(cardInputs.CVC);
+            await book_sessionLocators.cardholder_name.setValue(cardInputs.CardHolderName);
+            // await book_sessionLocators.close_keyboard.click();
+            await browser.hideKeyboard();
+            await book_sessionLocators.savecard_checkbox.click();
+            await browser.pause(timeouts.FORM_INPUT);
+            await book_sessionLocators.card_paynow.click();
+            await browser.pause(timeouts.PAYMENT_PROCESSING);
+            await book_sessionLocators.Paybutton_hyperpay.click();
+            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+            await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
+            await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
+            await book_sessionLocators.payment_completebtn.click();
+        }
+    } catch (error) {
+        console.log('No card found');
     }
-    else {
-        throw new Error('No saved cards found!');
+}
+
+export async function Packagebuy(consultant: string, cvc: string) {
+    await book_sessionLocators.searchconsultant.setValue(consultant);
+    await book_sessionLocators.booking_consultant_card(consultant).click();
+    await book_sessionLocators.explorepackage.click();
+    await book_sessionLocators.packagebuynow.click();
+    await book_sessionLocators.sessionconfirmation_paynow.click();
+    try {
+        await browser.pause(timeouts.ELEMENT_WAIT);
+        const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
+        console.log(isVisible);
+        if (isVisible) {
+            await book_sessionLocators.wallet_checkbox.click();
+        }
+    } catch (error) {
+        console.log('Wallet checkbox not found or not visible, continuing...');
     }
-    await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
-    await book_sessionLocators.savedcard_confirm_button.click();
-    await browser.pause(timeouts.PAYMENT_PROCESSING);
-    await book_sessionLocators.Paybutton_hyperpay.click();
-    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
-    await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
-    await book_sessionLocators.payment_completebtn.click();
+    await book_sessionLocators.continuecheckout_btn.click();
+    await browser.pause(timeouts.NAVIGATION);
+    try {
+        const isVisible = await book_sessionLocators.saved_card("Visa **** **** **** 1111").isDisplayed();
+        if (isVisible) {
+            await book_sessionLocators.saved_card("Visa **** **** **** 1111").click();
+            await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
+            await book_sessionLocators.savedcard_confirm_button.click();
+            await browser.pause(timeouts.PAYMENT_PROCESSING);
+            await book_sessionLocators.Paybutton_hyperpay.click();
+            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+            await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
+            await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
+            await book_sessionLocators.payment_completebtn.click();
+        }
+        else{
+            await book_sessionLocators.savedcard_addnewbtn.click();
+            await book_sessionLocators.card_number.setValue(cardInputs.CardNumber);
+            await book_sessionLocators.expiry_date.setValue(cardInputs.ExpiryDate);  
+            await book_sessionLocators.cvc.setValue(cardInputs.CVC);
+            await book_sessionLocators.cardholder_name.setValue(cardInputs.CardHolderName);
+            await book_sessionLocators.close_keyboard.click();
+            await book_sessionLocators.savecard_checkbox.click();
+            await browser.pause(timeouts.FORM_INPUT);
+            await book_sessionLocators.card_paynow.click();
+            await browser.pause(timeouts.PAYMENT_PROCESSING);
+            await book_sessionLocators.Paybutton_hyperpay.click();
+            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+            await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
+            await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
+            await book_sessionLocators.payment_completebtn.click();
+        }
+    } catch (error) {
+        console.log('No card found');
+    }
 }
 
 type GiftWalletParams = { email: string, name: string, message: string, cvc: string, cardNumber: string, expiryDate: string, cardholderName: string }
