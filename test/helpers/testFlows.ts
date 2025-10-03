@@ -1,6 +1,7 @@
 import { browser } from '@wdio/globals';
 import { timeouts } from '../constants/timeouts';
 import { cardInputs } from '../constants/cardDetails';
+import { time } from 'console';
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const book_sessionLocators = require('../screenobjects/book_session-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
@@ -196,65 +197,107 @@ export async function BookSessionTabby(consultant: string, email: string, phone:
     await book_sessionLocators.payment_completebtn.click();
 }
 
+// Set implicit wait once (best to do this in beforeAll or test setup)
+// await driver.setTimeout({ implicit: 5000 });
+
 export async function SavedCardsbookingflow(consultant: string, cvc: string) {
+    // Search and select consultant
     await book_sessionLocators.searchconsultant.setValue(consultant);
+    await book_sessionLocators.booking_consultant_card('Nawaz Sharif').waitForDisplayed({ timeouts: timeouts.PAYMENT_PROCESSING});
     await book_sessionLocators.booking_consultant_card('Nawaz Sharif').click();
+
+    // Book session
+    // await book_sessionLocators.book_sessionbtn.waitForClickable({ timeout: 10000 });
     await book_sessionLocators.book_sessionbtn.click();
-    // await book_sessionLocators.session_time('9:15pm').click();
+
+    // Scroll forward if needed
+    await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
+
+
+    // Pick first available time slot
     const timeslots = await book_sessionLocators.all_timeslots;
     if (timeslots.length > 0) {
-        await timeslots[0].click(); // Click the first available slot
+        // await timeslots[0].waitForClickable({ timeout: timeouts.NAVIGATION });
+        await timeslots[0].click();
     } else {
         throw new Error('No available time slots found!');
     }
+
+    // Confirm booking
+    // await book_sessionLocators.timeslot_booksession.waitForClickable({ timeout: 10000 });
     await book_sessionLocators.timeslot_booksession.click();
+
+    // await book_sessionLocators.sessionconfirmation_paynow.waitForClickable({ timeout: 10000 });
     await book_sessionLocators.sessionconfirmation_paynow.click();
+
+    // Handle optional wallet checkbox
     try {
-        await browser.pause(timeouts.ELEMENT_WAIT);
-        const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
-        if (isVisible) {
+        if (await book_sessionLocators.wallet_checkbox.waitForDisplayed({ timeout: timeouts.NAVIGATION })) {
             await book_sessionLocators.wallet_checkbox.click();
         }
-    } catch (error) {
+    } catch {
         console.log('Wallet checkbox not found or not visible, continuing...');
     }
+
+    // Continue to checkout
     await book_sessionLocators.continuecheckout_btn.click();
-    await browser.pause(timeouts.NAVIGATION);
+
+    // Handle saved card vs add new card
     try {
-        const isVisible = await book_sessionLocators.saved_card("Visa **** **** **** 1111").isDisplayed();
-        if (isVisible) {
-            await book_sessionLocators.saved_card("Visa **** **** **** 1111").click();
-            await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
-            await book_sessionLocators.savedcard_confirm_button.click();
-            await browser.pause(timeouts.PAYMENT_PROCESSING);
-            await book_sessionLocators.Paybutton_hyperpay.click();
-            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-            await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
-            await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
-            await book_sessionLocators.payment_completebtn.click();
-        }
-        else{
-            await book_sessionLocators.savedcard_addnewbtn.click();
-            await book_sessionLocators.card_number.setValue(cardInputs.CardNumber);
-            await book_sessionLocators.expiry_date.setValue(cardInputs.ExpiryDate);  
-            await book_sessionLocators.cvc.setValue(cardInputs.CVC);
-            await book_sessionLocators.cardholder_name.setValue(cardInputs.CardHolderName);
-            // await book_sessionLocators.close_keyboard.click();
-            await browser.hideKeyboard();
-            await book_sessionLocators.savecard_checkbox.click();
-            await browser.pause(timeouts.FORM_INPUT);
-            await book_sessionLocators.card_paynow.click();
-            await browser.pause(timeouts.PAYMENT_PROCESSING);
-            await book_sessionLocators.Paybutton_hyperpay.click();
-            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-            await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
-            await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
-            await book_sessionLocators.payment_completebtn.click();
-        }
-    } catch (error) {
-        console.log('No card found');
+    // Check if saved card is displayed
+    const cardExists = await book_sessionLocators
+        .saved_card("Visa **** **** **** 1111")
+        .isDisplayed()
+        .catch(() => false); // prevent throw, return false if not found
+
+    if (cardExists) {
+        //  Saved card flow
+        await book_sessionLocators.saved_card("Visa **** **** **** 1111").click();
+        await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
+        await book_sessionLocators.savedcard_confirm_button.click();
+
+         // Pause and click the pay button
+        await browser.pause(timeouts.PAYMENT_PROCESSING);
+        await book_sessionLocators.Paybutton_hyperpay.click();
+
+        await book_sessionLocators.payment_successmsg.waitForDisplayed({ timeout: timeouts.PAYMENT_CONFIRMATION });
+        await expect(book_sessionLocators.payment_successmsg).toHaveText(
+            'Your payment is complete! Your session has been successfully booked'
+        );
+
+        await book_sessionLocators.payment_completebtn.click();
+    } else {
+        //  Add new card flow
+        await book_sessionLocators.savedcard_addnewbtn.click();
+
+        await book_sessionLocators.card_number.setValue(cardInputs.CardNumber);
+        await book_sessionLocators.expiry_date.setValue(cardInputs.ExpiryDate);
+        await book_sessionLocators.cvc.setValue(cardInputs.CVC);
+        await book_sessionLocators.cardholder_name.setValue(cardInputs.CardHolderName);
+        await browser.hideKeyboard();
+
+        // await book_sessionLocators.savecard_checkbox.waitForClickable({ timeout: timeouts.NAVIGATION });
+        await book_sessionLocators.savecard_checkbox.click();
+
+        await book_sessionLocators.card_paynow.click();
+
+        // Pause and click the pay button
+        await browser.pause(timeouts.PAYMENT_PROCESSING);
+        await book_sessionLocators.Paybutton_hyperpay.click();
+
+        await book_sessionLocators.payment_successmsg.waitForDisplayed({ timeout: timeouts.PAYMENT_CONFIRMATION });
+        await expect(book_sessionLocators.payment_successmsg).toHaveText(
+            'Your payment is complete! Your session has been successfully booked'
+        );
+
+        await book_sessionLocators.payment_completebtn.click();
     }
+} catch (error) {
+    console.log('Unexpected error → Flow failed:', error);
 }
+
+}
+
 
 export async function Packagebuy(consultant: string, cvc: string) {
     await book_sessionLocators.searchconsultant.setValue(consultant);

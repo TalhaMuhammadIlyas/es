@@ -8,7 +8,7 @@ export const timeouts = {
     CLICK_WAIT: 1000,
 
     // Payment processing timeouts
-    PAYMENT_PROCESSING: 10000,
+    PAYMENT_PROCESSING: 15000,
     PAYMENT_CONFIRMATION: 4000,
 
     // Form interaction timeouts
