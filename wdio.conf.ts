@@ -18,8 +18,8 @@ export const config: any = {
     maxInstances: 10,
     capabilities: [{
         platformName: 'Android',
-        'appium:deviceName': 'Pixel 4a',
-        'appium:platformVersion': '13.0',
+        'appium:deviceName': 'Galaxy S23 Ultra',
+        'appium:platformVersion': '16.0',
         'appium:automationName': 'UiAutomator2',
         'appium:app': './app/Estenarh.apk',
         'appium:noReset': true,

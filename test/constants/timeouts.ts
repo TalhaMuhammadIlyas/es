@@ -21,7 +21,7 @@ export const timeouts = {
     ANIMATION: 500,
 
     // Custom timeouts
-    LONG_WAIT: 15000,
+    LONG_WAIT: 20000,
     MEDIUM_WAIT: 9000,
     SHORT_WAIT: 3000
 } as const;

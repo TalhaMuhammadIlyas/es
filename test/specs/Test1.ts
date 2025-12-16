@@ -13,7 +13,7 @@ const { completeLoginFlow, ForgotPassword, SignupFlow, BookSessionTabby, SavedCa
 describe('Estenarh App Test Suite', () => {
     beforeEach(async function () {
         allure.addFeature('Estenarh Mobile App');
-        //        allure.addParameter('environment', 'PLATFORM: Android');
+        // allure.addParameter('environment', 'PLATFORM: Android');
         // If you want to add environment info, use addEnvironment if available:
         // allure.addEnvironment('PLATFORM', 'Android');
     });
@@ -49,15 +49,15 @@ describe('Estenarh App Test Suite', () => {
     //     allure.endStep();
     // });
 
-    // it('Forgot Password', async() => {
-    //     allure.addFeature('Authentication');
-    //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify forgot password functionality');
-    //     
-    //     allure.startStep('Initiate password reset');
-    //     await ForgotPassword('anser@yopmail.com', '1234', 'click12345', 'click12345');
-    //     allure.endStep();
-    // });
+    it('Forgot Password', async() => {
+        allure.addFeature('Authentication');
+        allure.addSeverity('critical');
+        allure.addDescription('Verify forgot password functionality');
+        
+        allure.startStep('Initiate password reset');
+        await ForgotPassword('anser@yopmail.com', '1234', 'click12345', 'click12345');
+        allure.endStep();
+    });
 
     // it('Book Session with Tabby', async() => {
     //     allure.addFeature('Payment Processing');
@@ -69,32 +69,32 @@ describe('Estenarh App Test Suite', () => {
     //     allure.endStep();
     // });
 
-    it('Saved Card Booking Flow', async () => {
-        allure.addFeature('Session booking with hyperpayment');
+    // it('Saved Card Booking Flow', async () => {
+    //     allure.addFeature('Session booking with hyperpayment');
+    //     allure.addSeverity('critical');
+    //     allure.addDescription('Verify booking session using saved card flow', 'text');
+    //     allure.startStep('Book session with consultant using saved card');
+    //     await SavedCardsbookingflow('Nawaz Sharif', cardInputs.CVC);
+    //     allure.endStep();
+    // })
+
+    it('Gift Wallet Flow', async () => {
+        allure.addFeature('Gift Wallet');
         allure.addSeverity('critical');
-        allure.addDescription('Verify booking session using saved card flow', 'text');
-        allure.startStep('Book session with consultant using saved card');
-        await SavedCardsbookingflow('Nawaz Sharif', cardInputs.CVC);
+        allure.addDescription('Verify gift wallet functionality', 'text');
+
+        allure.startStep('Gift wallet flow for logged in client')
+        await GiftWalletFlow({
+            email: 'nayela@mailinator.com',
+            name: 'Nayela',
+            message: 'Here is a heart whelming gift for You!',
+            cvc: '123',
+            cardNumber: '4111111111111111',
+            expiryDate: '12/35',
+            cardholderName: 'Rohan Ul Haq'
+        });
         allure.endStep();
     })
-
-    // it('Gift Wallet Flow', async () => {
-    //     allure.addFeature('Gift Wallet');
-    //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify gift wallet functionality', 'text');
-
-    //     allure.startStep('Gift wallet flow for logged in client')
-    //     await GiftWalletFlow({
-    //         email: 'nayela@mailinator.com',
-    //         name: 'Nayela',
-    //         message: 'Here is a heart whelming gift for You!',
-    //         cvc: '123',
-    //         cardNumber: '4111111111111111',
-    //         expiryDate: '12/35',
-    //         cardholderName: 'Rohan Ul Haq'
-    // //     });
-    // //     allure.endStep();
-    // })
 
     // it('Anxiety Questionnaire', async () => {
     //     allure.addFeature('Anxiety Questionnaire');

@@ -94,9 +94,18 @@ class BookSessionLocators {
     get Paybutton_hyperpay() {
         return $('//android.widget.Button[@text="Pay"]');
     }
+    get testemailtabby() {
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View[1]/android.view.View/android.view.View/android.view.View[1]');
+    }
+    get tabbylogincontinue(){
+        return $('//android.widget.Button[@text="Continue"]')
+    }
+    get tabbyloginphone(){
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View[1]');
+    }
     get tabbyotp() {
         // Simplified XPath that's less dependent on exact view hierarchy
-        return $('//android.view.View[@resource-id="tabby-checkout"]//android.widget.EditText[contains(@text, "")]');
+        return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View');
     }
     get tabbytermscheckbox() {
         return $('//android.view.View[@resource-id="tabby-checkout"]/android.view.View/android.view.View[4]/android.view.View/android.view.View/android.view.View[4]/android.widget.Image');

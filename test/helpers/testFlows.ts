@@ -16,18 +16,15 @@ async function scrollNumberPicker(targetValue: string, currentValue: string) {
     // Calculate how many steps to scroll
     const current = parseInt(currentValue);
     const target = parseInt(targetValue);
-    const steps = Math.abs(current - target);
-    
-    // Use Android's native scroll command with optimized speed
-    for (let i = 0; i < steps; i++) {
+
+    while (current !== target) {
         await browser.execute('mobile: scrollGesture', {
             left: 600, top: 1100, width: 200, height: 200,
             direction: current > target ? 'up' : 'down',
-            percent: 0.9  // Increased from 0.75 to 0.9 for faster scrolling
+            percent: 0.9
         });
-        
-        // Reduced wait time between scrolls
-        await browser.pause(200);  // Reduced from 500ms to 200ms
+
+        await browser.pause(200);
     }
 }
 
@@ -56,16 +53,16 @@ export async function completeLoginFlow(email: string, password: string) {
 }
 
 export async function ForgotPassword(email: string, otp: string, password: string, confirmpassword: string) {
-    await browser.pause(timeouts.NAVIGATION);
+    await forgot_passwordLocators.bottom_nav_menu.waitForEnabled({ timeout: timeouts.NAVIGATION });
     await forgot_passwordLocators.bottom_nav_menu.click();
     await forgot_passwordLocators.guestmenu_loginbtn.click();
     await forgot_passwordLocators.emailswitcher.click();
     await forgot_passwordLocators.login_input.setValue(email);
     await forgot_passwordLocators.nextbtn.click();
     await forgot_passwordLocators.forgot_pwdlink.click();
-    await browser.pause(timeouts.ELEMENT_WAIT);
+    await forgot_passwordLocators.resetpassword_btn.waitForEnabled({ timeout: timeouts.ELEMENT_WAIT });
     await forgot_passwordLocators.resetpassword_btn.click();
-    await browser.pause(timeouts.SHORT_WAIT);
+    await signup_screenLocators.otp_screen_title.waitForDisplayed({ timeout: timeouts.SHORT_WAIT });
     await forgot_passwordLocators.otp.setValue(otp);
     await forgot_passwordLocators.otp_nextbtn.click();
     await forgot_passwordLocators.password.setValue(password);
@@ -74,17 +71,12 @@ export async function ForgotPassword(email: string, otp: string, password: strin
 }
 
 export async function SignupFlow(otp: string, password: string, confirmpassword: string) {
-    await browser.pause(timeouts.LONG_WAIT);
+    await signup_screenLocators.nextbutton.waitForEnabled({ timeout: timeouts.LONG_WAIT });
     await signup_screenLocators.nextbutton.click();
-    await browser.pause(timeouts.ANIMATION);
     await signup_screenLocators.nextbutton.click();
-    await browser.pause(timeouts.ANIMATION);
     await signup_screenLocators.nextbutton.click();
-    await browser.pause(timeouts.ANIMATION);
     await signup_screenLocators.nextbutton.click();
-    await browser.pause(timeouts.ANIMATION);
     await signup_screenLocators.nextbutton.click();
-    await browser.pause(timeouts.ANIMATION);
     await signup_screenLocators.explorebutton.click();
     await signup_screenLocators.bottom_nav_menu.click();
     await signup_screenLocators.guestmenu_loginbtn.click();
@@ -109,7 +101,7 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
 
     await signup_screenLocators.login_inputemail.setValue(generateRandomEmail());
     await signup_screenLocators.login_nextbtn.click();
-    await browser.pause(timeouts.SHORT_WAIT);
+    await signup_screenLocators.otp_screen_title.waitForDisplayed({ timeout: timeouts.SHORT_WAIT });
     await signup_screenLocators.otp.setValue(otp);
     await signup_screenLocators.otp_nextbtn.click();
     await signup_screenLocators.input_name.setValue(generateRandomName());
@@ -119,10 +111,11 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
     await signup_screenLocators.gender_nextbtn.click();
     
     // Handle date picker for date of birth
+    // await signup_screenLocators.date_picker.waitForDisplayed({ timeout: timeouts.CLICK_WAIT });
     await signup_screenLocators.date_picker.click();
-    await browser.pause(timeouts.CLICK_WAIT);
+    // await browser.pause(timeouts.CLICK_WAIT);
     
-    await scrollNumberPicker('2015', '2019'); 
+    await scrollNumberPicker('2015','2019'); 
     
     await signup_screenLocators.confirm_datepicker_btn.click();
     await signup_screenLocators.inputname_nextbtn.click();
@@ -137,15 +130,15 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
 export async function BookSessionTabby(consultant: string, email: string, phone: string, otp: string) {
     await browser.pause(timeouts.SHORT_WAIT); // Add a wait here before interacting with elements
     await book_sessionLocators.searchconsultant.setValue(consultant);
-    await book_sessionLocators.booking_instant_card(consultant).click();
+    await book_sessionLocators.booking_consultant_card('Nawaz Sharif').click();
     await book_sessionLocators.book_sessionbtn.click();
-    await book_sessionLocators.session_time('9:15pm').click();
-    // const timeslots = await book_sessionLocators.all_timeslots;
-    // if (timeslots.length > 0) {
-    //     await timeslots[0].click(); // Click the first available slot
-    // } else {
-    //     throw new Error('No available time slots found!');
-    // }
+    // await book_sessionLocators.session_time('9:15pm').click();
+    const timeslots = await book_sessionLocators.all_timeslots;
+    if (timeslots.length > 0) {
+        await timeslots[0].click(); // Click the first available slot
+    } else {
+        throw new Error('No available time slots found!');
+    }
     await book_sessionLocators.timeslot_booksession.click();
     await book_sessionLocators.sessionconfirmation_paynow.click();
     try {
@@ -175,21 +168,22 @@ export async function BookSessionTabby(consultant: string, email: string, phone:
     } catch (error) {
         console.log('Email login not visible, continuing...');
     }
-    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    try {
-        const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
-        if (loginEmailVisible) {
-            await book_sessionLocators.testemailtabby.clearValue();
-            await book_sessionLocators.testemailtabby.setValue(email);
-            await book_sessionLocators.tabbylogincontinue.click();
-        }
-    } catch (error) {
-        console.log('Email login not visible, continuing...');
-    }
+    // await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+    // try {
+    //     const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
+    //     if (loginEmailVisible) {
+    //         await book_sessionLocators.testemailtabby.clearValue();
+    //         await book_sessionLocators.testemailtabby.setValue(email);
+    //         await book_sessionLocators.tabbylogincontinue.click();
+    //     }
+    // } catch (error) {
+    //     console.log('Email login not visible, continuing...');
+    // }
     await book_sessionLocators.tabbyotp.click();
     await book_sessionLocators.tabbyotp.setValue(otp);
     await browser.hideKeyboard();
     await book_sessionLocators.tabbytermscheckbox.click();
+    await book_sessionLocators.tabbylogincontinue.click();
     await book_sessionLocators.tabbylogincontinue.click();
     await browser.pause(timeouts.PAYMENT_PROCESSING);
     await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
@@ -306,48 +300,65 @@ export async function Packagebuy(consultant: string, cvc: string) {
     await book_sessionLocators.packagebuynow.click();
     await book_sessionLocators.sessionconfirmation_paynow.click();
     try {
-        await browser.pause(timeouts.ELEMENT_WAIT);
-        const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
-        console.log(isVisible);
-        if (isVisible) {
+        if (await book_sessionLocators.wallet_checkbox.waitForDisplayed({ timeout: timeouts.NAVIGATION })) {
             await book_sessionLocators.wallet_checkbox.click();
         }
-    } catch (error) {
+    } catch {
         console.log('Wallet checkbox not found or not visible, continuing...');
     }
+
+    // Continue to checkout
     await book_sessionLocators.continuecheckout_btn.click();
-    await browser.pause(timeouts.NAVIGATION);
+
+    // Handle saved card vs add new card
     try {
-        const isVisible = await book_sessionLocators.saved_card("Visa **** **** **** 1111").isDisplayed();
-        if (isVisible) {
-            await book_sessionLocators.saved_card("Visa **** **** **** 1111").click();
-            await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
-            await book_sessionLocators.savedcard_confirm_button.click();
-            await browser.pause(timeouts.PAYMENT_PROCESSING);
-            await book_sessionLocators.Paybutton_hyperpay.click();
-            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-            await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
-            await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
-            await book_sessionLocators.payment_completebtn.click();
-        }
-        else{
-            await book_sessionLocators.savedcard_addnewbtn.click();
-            await book_sessionLocators.card_number.setValue(cardInputs.CardNumber);
-            await book_sessionLocators.expiry_date.setValue(cardInputs.ExpiryDate);  
-            await book_sessionLocators.cvc.setValue(cardInputs.CVC);
-            await book_sessionLocators.cardholder_name.setValue(cardInputs.CardHolderName);
-            await book_sessionLocators.close_keyboard.click();
-            await book_sessionLocators.savecard_checkbox.click();
-            await browser.pause(timeouts.FORM_INPUT);
-            await book_sessionLocators.card_paynow.click();
-            await browser.pause(timeouts.PAYMENT_PROCESSING);
-            await book_sessionLocators.Paybutton_hyperpay.click();
-            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-            await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
-            await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
-            await book_sessionLocators.payment_completebtn.click();
-        }
-    } catch (error) {
+    // Check if saved card is displayed
+    const cardExists = await book_sessionLocators
+        .saved_card("Visa **** **** **** 1111")
+        .isDisplayed()
+        .catch(() => false); // prevent throw, return false if not found
+
+    if (cardExists) {
+        //  Saved card flow
+        await book_sessionLocators.saved_card("Visa **** **** **** 1111").click();
+        await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
+        await book_sessionLocators.savedcard_confirm_button.click();
+
+         // Pause and click the pay button
+        await browser.pause(timeouts.PAYMENT_PROCESSING);
+        await book_sessionLocators.Paybutton_hyperpay.click();
+
+        await book_sessionLocators.payment_successmsg.waitForDisplayed({ timeout: timeouts.PAYMENT_CONFIRMATION });
+        await expect(book_sessionLocators.payment_successmsg).toHaveText(
+            'Your payment is complete! Your session has been successfully booked'
+        );
+
+        await book_sessionLocators.payment_completebtn.click();
+    } 
+    else {
+        //  Add new card flow
+        await book_sessionLocators.savedcard_addnewbtn.click();
+
+        await book_sessionLocators.card_number.setValue(cardInputs.CardNumber);
+        await book_sessionLocators.expiry_date.setValue(cardInputs.ExpiryDate);
+        await book_sessionLocators.cvc.setValue(cardInputs.CVC);
+        await book_sessionLocators.cardholder_name.setValue(cardInputs.CardHolderName);
+        await browser.hideKeyboard();
+
+        // await book_sessionLocators.savecard_checkbox.waitForClickable({ timeout: timeouts.NAVIGATION });
+        await book_sessionLocators.savecard_checkbox.click();
+
+        await book_sessionLocators.card_paynow.click();
+
+        // Pause and click the pay button
+        await browser.pause(timeouts.PAYMENT_PROCESSING);
+        await book_sessionLocators.Paybutton_hyperpay.click();
+        await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
+        await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
+        await book_sessionLocators.payment_completebtn.click();
+    }
+    } 
+    catch (error) {
         console.log('No card found');
     }
 }
@@ -355,16 +366,15 @@ export async function Packagebuy(consultant: string, cvc: string) {
 type GiftWalletParams = { email: string, name: string, message: string, cvc: string, cardNumber: string, expiryDate: string, cardholderName: string }
 
 export async function GiftWalletFlow({ email, name, message, cvc, cardNumber, expiryDate, cardholderName }: GiftWalletParams) {
-    await browser.pause(timeouts.NAVIGATION);
+    await gift_walletLocators.bottom_nav_menu.waitForEnabled({ timeout: timeouts.NAVIGATION });
     await gift_walletLocators.bottom_nav_menu.click();
-    await browser.pause(timeouts.ELEMENT_WAIT);
-    // await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
+    await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
     await gift_walletLocators.gift_wallet_menu.click();
     await gift_walletLocators.gift_wallet_email_switcher.click();
     await login_screenLocators.login_input.click();
     await login_screenLocators.login_input.setValue(email);
     await gift_walletLocators.gift_wallet_input_email_next.click();
-    await browser.pause(timeouts.ELEMENT_WAIT);
+    await gift_walletLocators.gift_wallet_select_preset.waitForEnabled({ timeout: timeouts.ELEMENT_WAIT });
     await gift_walletLocators.gift_wallet_select_preset.click();
     await gift_walletLocators.gift_wallet_next_button.click();
     await gift_walletLocators.gift_wallet_input_name.setValue(name);
@@ -372,7 +382,7 @@ export async function GiftWalletFlow({ email, name, message, cvc, cardNumber, ex
     await gift_walletLocators.gift_wallet_next2_button.click();
     await gift_walletLocators.gift_wallet_next2_button.click();
     await gift_walletLocators.gift_wallet_next_button.click();
-    await browser.pause(timeouts.ELEMENT_WAIT);
+    await gift_walletLocators.add_new_card_button.waitForEnabled({ timeout: timeouts.ELEMENT_WAIT });
     await gift_walletLocators.add_new_card_button.click();
     await book_sessionLocators.card_number.setValue(cardNumber);
     await book_sessionLocators.expiry_date.setValue(expiryDate);
@@ -382,7 +392,7 @@ export async function GiftWalletFlow({ email, name, message, cvc, cardNumber, ex
     await book_sessionLocators.card_paynow.click();
     await browser.pause(timeouts.PAYMENT_PROCESSING);
     await book_sessionLocators.Paybutton_hyperpay.click();
-    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+    // await browser.pause(timeouts.PAYMENT_CONFIRMATION);
     await book_sessionLocators.payment_completebtn.click();
     await expect(gift_walletLocators.bottom_nav_menu).toBeDisplayed();
 }
