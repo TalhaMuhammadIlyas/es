@@ -29,6 +29,12 @@ class LoginScreenLocators {
     get password_nextbtn() {
         return $('~login_btn_next');
     }
+    get logout_menubtn() {
+        return $('//android.view.ViewGroup[@content-desc="menu_btn_log_out"]');
+    }
+    get guestuser_text() {
+        return $('//android.widget.TextView[@text="Guest User"]');
+    }
 }
 
 module.exports = new LoginScreenLocators();

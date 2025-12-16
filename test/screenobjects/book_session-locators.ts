@@ -18,7 +18,10 @@ class BookSessionLocators {
         return $('~schedule_session_btn_book_session');
     }
     get all_timeslots() {
-        return $$('//android.view.ViewGroup[contains(@content-desc, "am") or contains(@content-desc, "pm")]/android.view.ViewGroup');
+        return $$('//android.view.ViewGroup[matches(@resource-id, "[0-9]{1,2}:[0-9]{2}(am|pm)")]');
+    }
+    booking_card_identifier(consultant: string) {
+        return $(`//android.widget.TextView[@text='${consultant}']`);
     }
     session_time(time: string) {
         // Locate the text, then go up to the parent card container
