@@ -20,9 +20,6 @@ class SignupScreenLocators {
     get login_nextbtn() {
         return $('~login_btn_next');
     }
-    get otp_screen_title() {
-        return $('//android.widget.TextView[@text="Verify Your Email"]')
-    }
     get otp() {
         return $('//android.widget.EditText');
     }

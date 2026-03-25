@@ -12,7 +12,7 @@ class LoginScreenLocators {
         return $('~menu_btn_login');
     }
     get emailswitcher() {
-        return $('//android.view.ViewGroup[@resource-id="login_switcher"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup');
+        return $('~login_switcher_email_option');
     }
     get login_input() {
         return $('~login_input_email');
@@ -34,6 +34,12 @@ class LoginScreenLocators {
     }
     get guestuser_text() {
         return $('//android.widget.TextView[@text="Guest User"]');
+    }
+    get Notnow_notifications() {
+        return $('~Not Now');
+    }
+    get home_screen_identifier() {
+        return $('(//android.widget.TextView[@text="Consultants"])[1]');
     }
 }
 

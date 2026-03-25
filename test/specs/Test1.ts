@@ -1,6 +1,7 @@
 /// <reference types="@wdio/globals/types" />
 import allure from '@wdio/allure-reporter';
 import { cardInputs } from '../constants/cardDetails';
+import { miscellaneous } from '../constants/miscellaneous';
 
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
@@ -8,7 +9,7 @@ const forgot_passwordLocators = require('../screenobjects/forgot_password-locato
 const book_sessionLocators = require('../screenobjects/book_session-locators');
 const gift_walletLocators = require('../screenobjects/gift_wallet-locators');
 const resources_locator = require('../screenobjects/resources-locator');
-const { completeLoginFlow, ForgotPassword, SignupFlow, BookSessionTabby, SavedCardsbookingflow, Packagebuy, GiftWalletFlow, scrollNumberPickerUiAutomator, AnxietyQuestionnaire } = require('../helpers/testFlows');
+const { completeLoginFlow, ForgotPassword, SignupFlow, BookSessionTabby, SavedCardsbookingflow, Packagebuy, GiftWalletFlow, scrollNumberPickerUiAutomator, AnxietyQuestionnaire, E2EFlow } = require('../helpers/testFlows');
 
 describe('Estenarh App Test Suite', () => {
     beforeEach(async function () {
@@ -18,14 +19,14 @@ describe('Estenarh App Test Suite', () => {
         // allure.addEnvironment('PLATFORM', 'Android');
     });
 
-    // it('login flow', async () => {
-    //     allure.addFeature('Authentication');
-    //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify user can login with valid credentials', 'text');
-    //     allure.startStep('Execute login flow');
-    //     await completeLoginFlow('talha.ilyas@mailinator.com', 'click123');
-    //     allure.endStep();
-    // })
+    it('login flow', async () => {
+        allure.addFeature('Authentication');
+        allure.addSeverity('critical');
+        allure.addDescription('Verify user can login with valid credentials', 'text');
+        allure.startStep('Execute login flow');
+        await completeLoginFlow('talha.ilyas@mailinator.com', 'click123');
+        allure.endStep();
+    })
 
     // it('Signup flow with fresh build', async () => {
     //     allure.addFeature('Authentication');
@@ -49,52 +50,58 @@ describe('Estenarh App Test Suite', () => {
     //     allure.endStep();
     // });
 
-    it('Forgot Password', async() => {
-        allure.addFeature('Authentication');
-        allure.addSeverity('critical');
-        allure.addDescription('Verify forgot password functionality');
-        
-        allure.startStep('Initiate password reset');
-        await ForgotPassword('anser@yopmail.com', '1234', 'click12345', 'click12345');
-        allure.endStep();
-    });
-
-    // it('Book Session with Tabby', async() => {
-    //     allure.addFeature('Payment Processing');
+    // it('Forgot Password', async() => {
+    //     allure.addFeature('Authentication');
+    //     allure.addFeature('Authentication');
     //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify booking session using Tabby payment method', 'text');
+    //     allure.addDescription('Verify forgot password functionality', 'text');
         
-    //     allure.startStep('Book session with consultant');
-    //     await BookSessionTabby('Nawaz Sharif','card.success@tabby.ai','500000001','8888');
+    //     allure.startStep('Initiate password reset');
     //     allure.endStep();
     // });
 
-    // it('Saved Card Booking Flow', async () => {
-    //     allure.addFeature('Session booking with hyperpayment');
+
+    // it('E2E Flow', async () => {
+    //     allure.addFeature('End-to-End Flow');
     //     allure.addSeverity('critical');
-    //     allure.addDescription('Verify booking session using saved card flow', 'text');
-    //     allure.startStep('Book session with consultant using saved card');
-    //     await SavedCardsbookingflow('Nawaz Sharif', cardInputs.CVC);
+    //     allure.addDescription('Verify complete user journey from login to booking a session', 'text');
+    //     allure.startStep('Execute end-to-end user flow');
+    //     await E2EFlow({
+    //         email: miscellaneous.ClientMail,
+    //         password: miscellaneous.ClientPassword,
+    //         consultant: miscellaneous.ConsultantName,
+    //         cvc: cardInputs.CVC
+    //     });
     //     allure.endStep();
-    // })
+    // });
 
-    it('Gift Wallet Flow', async () => {
-        allure.addFeature('Gift Wallet');
+
+    it('Saved Card Booking Flow', async () => {
+        allure.addFeature('Session booking with hyperpayment');
         allure.addSeverity('critical');
-        allure.addDescription('Verify gift wallet functionality', 'text');
-
-        allure.startStep('Gift wallet flow for logged in client')
-        await GiftWalletFlow({
-            email: 'nayela@mailinator.com',
-            name: 'Nayela',
-            message: 'Here is a heart whelming gift for You!',
-            cvc: '123',
-            cardNumber: '4111111111111111',
-            expiryDate: '12/35',
-            cardholderName: 'Rohan Ul Haq'
-        });
+        allure.addDescription('Verify booking session using saved card flow', 'text');
+        allure.startStep('Book session with consultant using saved card');
+        await SavedCardsbookingflow('Nawaz Sharif', cardInputs.CVC);
         allure.endStep();
     })
+
+    // it('Gift Wallet Flow', async () => {
+    //     allure.addFeature('Gift Wallet');
+    //     allure.addSeverity('critical');
+    //     allure.addDescription('Verify gift wallet functionality', 'text');
+
+    //     allure.startStep('Gift wallet flow for logged in client')
+    //     await GiftWalletFlow({
+    //         email: 'nayela@mailinator.com',
+    //         name: 'Nayela',
+    //         message: 'Here is a heart whelming gift for You!',
+    //         cvc: cardInputs.CVC,
+    //         cardNumber: cardInputs.CardNumber,
+    //         expiryDate: cardInputs.ExpiryDate,
+    //         cardholderName: cardInputs.CardHolderName
+    //     });
+    //     allure.endStep();
+    // })
 
     // it('Anxiety Questionnaire', async () => {
     //     allure.addFeature('Anxiety Questionnaire');

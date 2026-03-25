@@ -1,6 +1,7 @@
 import { browser } from '@wdio/globals';
 import { timeouts } from '../constants/timeouts';
 import { cardInputs } from '../constants/cardDetails';
+import { miscellaneous } from '../constants/miscellaneous';
 import { time } from 'console';
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const book_sessionLocators = require('../screenobjects/book_session-locators');
@@ -130,7 +131,7 @@ export async function SignupFlow(otp: string, password: string, confirmpassword:
 type E2EParams = { email: string, password: string, consultant: string, cvc: string }
 
 export async function E2EFlow({ email, password, consultant, cvc }: E2EParams) {
-    await browser.pause(timeouts.MEDIUM_WAIT);
+    await login_screenLocators.nextbutton.waitForDisplayed({ timeout: timeouts.LONG_WAIT });
     await login_screenLocators.nextbutton.click();
     await login_screenLocators.nextbutton.click();
     await login_screenLocators.nextbutton.click();
@@ -145,13 +146,13 @@ export async function E2EFlow({ email, password, consultant, cvc }: E2EParams) {
     await login_screenLocators.password_input.setValue(password);
     await login_screenLocators.unhide_eyebtn.click();
     await login_screenLocators.password_nextbtn.click();
-    await browser.pause(timeouts.SHORT_WAIT);
+    await login_screenLocators.Notnow_notifications.waitForDisplayed({ timeout: timeouts.PAYMENT_PROCESSING });
     await login_screenLocators.Notnow_notifications.click();
     await expect(login_screenLocators.home_screen_identifier).toBeDisplayed();
     await expect(login_screenLocators.home_screen_identifier).toHaveText('Consultants');
-    await browser.pause(timeouts.SHORT_WAIT); // Add a wait here before interacting with elements
+    await book_sessionLocators.searchconsultant.waitForDisplayed({ timeout: timeouts.SHORT_WAIT });
     await book_sessionLocators.searchconsultant.setValue(consultant);
-    await book_sessionLocators.consultant_card(consultant).click();
+    await book_sessionLocators.booking_consultant_card(consultant).click();
     await book_sessionLocators.book_sessionbtn.click();
     const timeslots = await book_sessionLocators.all_timeslots;
     let slotClicked = false;
@@ -170,7 +171,7 @@ export async function E2EFlow({ email, password, consultant, cvc }: E2EParams) {
     }
     expect(slotClicked).toBe(true);
     await book_sessionLocators.timeslot_booksession.click();
-    await browser.pause(timeouts.NAVIGATION);
+    await book_sessionLocators.sessionconfirmation_paynow.waitForDisplayed({ timeout: timeouts.PAYMENT_PROCESSING });
     await book_sessionLocators.sessionconfirmation_paynow.click();
     try {
         const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
@@ -181,8 +182,9 @@ export async function E2EFlow({ email, password, consultant, cvc }: E2EParams) {
         console.log('Wallet checkbox not found or not visible, continuing...');
     }
     await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
+    await book_sessionLocators.continuecheckout_btn.waitForDisplayed({ timeout: timeouts.PAYMENT_PROCESSING });
     await book_sessionLocators.continuecheckout_btn.click();
-    await browser.pause(timeouts.NAVIGATION);
+    await book_sessionLocators.all_saved_cards.waitForDisplayed({ timeout: timeouts.PAYMENT_PROCESSING });
     const savedCards = await book_sessionLocators.all_saved_cards;
     if (savedCards.length > 0) {
         await savedCards[0].click(); // Click the first saved card
@@ -191,11 +193,10 @@ export async function E2EFlow({ email, password, consultant, cvc }: E2EParams) {
     }
     await book_sessionLocators.savedcard_input_cvc.setValue(cvc);
     await book_sessionLocators.savedcard_confirm_button.click();
-    await browser.pause(timeouts.PAYMENT_PROCESSING);
+    await book_sessionLocators.Paybutton_hyperpay.waitForDisplayed({ timeout: timeouts.PAYMENT_PROCESSING });
     await book_sessionLocators.Paybutton_hyperpay.click();
-    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
+    await book_sessionLocators.payment_completebtn.waitForDisplayed({ timeout: timeouts.PAYMENT_CONFIRMATION });
     await book_sessionLocators.payment_completebtn.click();
-    await browser.pause(timeouts.MEDIUM_WAIT);
     await expect(book_sessionLocators.booking_card_identifier(consultant)).toBeDisplayed();
     await expect(book_sessionLocators.booking_card_identifier(consultant)).toHaveText(consultant);
     await login_screenLocators.bottom_nav_menu.click();
@@ -203,76 +204,11 @@ export async function E2EFlow({ email, password, consultant, cvc }: E2EParams) {
         'android=new UiScrollable(new UiSelector().scrollable(true))' +
         '.scrollIntoView(new UiSelector().text("Log Out"))'
     );
-    await browser.pause(timeouts.ELEMENT_WAIT);
+    await login_screenLocators.logout_menubtn.waitForDisplayed({ timeout: timeouts.ELEMENT_WAIT });
     await login_screenLocators.logout_menubtn.click();
-    await browser.pause(timeouts.ELEMENT_WAIT);
     await login_screenLocators.guestuser_text.waitForDisplayed({ timeout: timeouts.MEDIUM_WAIT });
     await expect(login_screenLocators.guestuser_text).toBeDisplayed();
     await expect(login_screenLocators.guestuser_text).toHaveText('Guest User');
-}
-
-export async function BookSessionTabby(consultant: string, email: string, phone: string, otp: string) {
-    await browser.pause(timeouts.SHORT_WAIT); // Add a wait here before interacting with elements
-    await book_sessionLocators.searchconsultant.setValue(consultant);
-    await book_sessionLocators.booking_consultant_card('Nawaz Sharif').click();
-    await book_sessionLocators.book_sessionbtn.click();
-    // await book_sessionLocators.session_time('9:15pm').click();
-    const timeslots = await book_sessionLocators.all_timeslots;
-    if (timeslots.length > 0) {
-        await timeslots[0].click(); // Click the first available slot
-    } else {
-        throw new Error('No available time slots found!');
-    }
-    await book_sessionLocators.timeslot_booksession.click();
-    await book_sessionLocators.sessionconfirmation_paynow.click();
-    try {
-        const isVisible = await book_sessionLocators.wallet_checkbox.isDisplayed();
-        if (isVisible) {
-            await book_sessionLocators.wallet_checkbox.click();
-        }
-    } catch (error) {
-        console.log('Wallet checkbox not found or not visible, continuing...');
-    }
-    // Scroll down one page
-    await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
-    await book_sessionLocators.tabby_btn.click();
-    await book_sessionLocators.continuecheckout_btn.click();
-    await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    try {
-        const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
-        if (loginEmailVisible) {
-            await book_sessionLocators.testemailtabby.clearValue();
-            await book_sessionLocators.testemailtabby.setValue(email);
-            await book_sessionLocators.tabbylogincontinue.click();
-            await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-            await book_sessionLocators.tabbyloginphone.clearValue();
-            await book_sessionLocators.tabbyloginphone.setValue(phone);
-            await book_sessionLocators.tabbylogincontinue.click();
-        }
-    } catch (error) {
-        console.log('Email login not visible, continuing...');
-    }
-    // await browser.pause(timeouts.PAYMENT_CONFIRMATION);
-    // try {
-    //     const loginEmailVisible = await book_sessionLocators.testemailtabby.isDisplayed();
-    //     if (loginEmailVisible) {
-    //         await book_sessionLocators.testemailtabby.clearValue();
-    //         await book_sessionLocators.testemailtabby.setValue(email);
-    //         await book_sessionLocators.tabbylogincontinue.click();
-    //     }
-    // } catch (error) {
-    //     console.log('Email login not visible, continuing...');
-    // }
-    await book_sessionLocators.tabbyotp.click();
-    await book_sessionLocators.tabbyotp.setValue(otp);
-    await browser.hideKeyboard();
-    await book_sessionLocators.tabbytermscheckbox.click();
-    await book_sessionLocators.tabbylogincontinue.click();
-    await book_sessionLocators.tabbylogincontinue.click();
-    await browser.pause(timeouts.PAYMENT_PROCESSING);
-    await expect(book_sessionLocators.payment_successmsg).toBeDisplayed();
-    await expect(book_sessionLocators.payment_successmsg).toHaveText('Your payment is complete! Your session has been successfully booked');
-    await book_sessionLocators.payment_completebtn.click();
 }
 
 // Set implicit wait once (best to do this in beforeAll or test setup)
