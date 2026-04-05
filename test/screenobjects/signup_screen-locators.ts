@@ -12,7 +12,7 @@ class SignupScreenLocators {
         return $('~menu_btn_login');
     }
     get emailswitcher() {
-        return $('//android.view.ViewGroup[@resource-id="login_switcher"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup');
+        return $('~login_switcher_email_option');
     }
     get login_inputemail() {
         return $('~login_input_email');
@@ -70,6 +70,9 @@ class SignupScreenLocators {
     }
     get welcome_nextbtn() {
         return $('~welcome_btn_start');
+    }
+    get otp_screen_title() {
+        return $('//android.widget.TextView[@text="Verify Your Email"]');
     }
 }
 

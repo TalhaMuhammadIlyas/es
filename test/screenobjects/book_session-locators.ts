@@ -71,7 +71,7 @@ class BookSessionLocators {
         return $('//android.widget.TextView[@text="Your payment is complete! Your session has been successfully booked"]');
     }
     get package_Suceessmsg() {
-        return $('//android.widget.TextView[@text="You’ve successfully purchased a package with Ahmed Ali"]');
+        return $('//android.widget.TextView[@text="Youâ€™ve successfully purchased a package with Ahmed Ali"]');
     }
     get card_number() {
         return $('~pay_by_card_input_card_number');
@@ -93,6 +93,24 @@ class BookSessionLocators {
     }
     get Paybutton_hyperpay() {
         return $('//android.widget.Button[@text="Pay"]');
+    }
+
+    // need to change the locators
+
+    get wallet_payment_method() {
+        return $('~wallet_card');
+    }
+    get partner_wallet_payment_method() {
+        return $('~partner_wallet_card');
+    }
+    get referral_wallet_payment_method() {
+        return $('~referral_wallet_card');
+    }
+    get promo_code_input() {
+        return $('~checkout_input_promocode');
+    }
+    get promo_code_apply_btn() {
+        return $('~checkout_button_apply_promocode');
     }
 }
 

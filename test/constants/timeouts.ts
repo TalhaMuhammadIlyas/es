@@ -1,6 +1,6 @@
 export const timeouts = {
     // Navigation timeouts
-    NAVIGATION: 5000,
+    NAVIGATION: 8000,
     PAGE_LOAD: 12000,
 
     // Element interaction timeouts

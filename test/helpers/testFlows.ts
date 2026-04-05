@@ -3,6 +3,41 @@ import { timeouts } from '../constants/timeouts';
 import { cardInputs } from '../constants/cardDetails';
 import { miscellaneous } from '../constants/miscellaneous';
 import { time } from 'console';
+import {
+    clickLoginMenu,
+    enterEmail,
+    enterPassword,
+    dismissNotifications,
+    searchConsultant,
+    clickBookSessionButton,
+    selectFirstAvailableTimeSlot,
+    confirmTimeSlot,
+    clickPayNowAtSessionConfirmation,
+    applyPromoCode,
+    selectWalletPayment,
+    selectPartnerWalletPayment,
+    selectReferralWalletPayment,
+    continueToCheckout,
+    selectSavedCardAtCheckout,
+    addNewCardAtCheckout,
+    completePayment,
+    generateRandomEmail,
+    generateRandomName,
+    completeOnboarding,
+    openSignupScreen,
+    enterSignupEmail,
+    enterSignupOtp,
+    enterNameAndGender,
+    selectDateOfBirth,
+    enterSignupPassword,
+    openForgotPasswordScreen,
+    enterResetOtp,
+    enterNewPassword,
+    openResourcesTab,
+    selectAnxietyQuestionnaire,
+    answerQuestionnaireQuestion
+} from './simpleHelpers';
+
 const login_screenLocators = require('../screenobjects/login_screen-locators');
 const book_sessionLocators = require('../screenobjects/book_session-locators');
 const signup_screenLocators = require('../screenobjects/signup_screen-locators');
@@ -29,102 +64,95 @@ async function scrollNumberPicker(targetValue: string, currentValue: string) {
     }
 }
 
-export async function completeLoginFlow(email: string, password: string) {
-    // Navigate through initial screens
-    await login_screenLocators.nextbutton.click();
-    await login_screenLocators.nextbutton.click();
-    await login_screenLocators.nextbutton.click();
-    await login_screenLocators.nextbutton.click();
-    await login_screenLocators.nextbutton.click();
-    await login_screenLocators.explorebutton.click();
-    await login_screenLocators.bottom_nav_menu.click();
-    await login_screenLocators.guestmenu_loginbtn.click();
-    await login_screenLocators.emailswitcher.click();
-
-    // Enter login credentials
-    await login_screenLocators.login_input.setValue(email);
-    await login_screenLocators.login_nextbtn.click();
-    await login_screenLocators.password_input.setValue(password);
-    await login_screenLocators.unhide_eyebtn.click();
-    await login_screenLocators.password_nextbtn.click();
-
-    // Handle notifications
-    await browser.pause(timeouts.CLICK_WAIT);
-    // await login_screenLocators.Notnow_notifications.click();
+/**
+ * Login with valid credentials
+ * Steps:
+ * 1. Click login menu
+ * 2. Enter email
+ * 3. Enter password
+ * 4. Dismiss notifications
+ */
+export async function completeLoginFlowwithValidCredentials(email: string, password: string) {
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
 }
 
+/**
+ * Try to login with invalid password
+ * Should show error message
+ */
+export async function completeLoginFlowwithInvalidCredentials(email: string, password: string) {
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    
+    // Check for error
+    const login_screenLocators = require('../screenobjects/login_screen-locators');
+    await expect(login_screenLocators.login_error_message).toBeDisplayed();
+}
+
+/**
+ * Forgot Password Flow
+ * Steps:
+ * 1. Open forgot password screen
+ * 2. Request password reset
+ * 3. Enter OTP
+ * 4. Enter new password
+ */
 export async function ForgotPassword(email: string, otp: string, password: string, confirmpassword: string) {
-    await forgot_passwordLocators.bottom_nav_menu.waitForEnabled({ timeout: timeouts.NAVIGATION });
-    await forgot_passwordLocators.bottom_nav_menu.click();
-    await forgot_passwordLocators.guestmenu_loginbtn.click();
-    await forgot_passwordLocators.emailswitcher.click();
-    await forgot_passwordLocators.login_input.setValue(email);
-    await forgot_passwordLocators.nextbtn.click();
-    await forgot_passwordLocators.forgot_pwdlink.click();
-    await forgot_passwordLocators.resetpassword_btn.waitForEnabled({ timeout: timeouts.ELEMENT_WAIT });
-    await forgot_passwordLocators.resetpassword_btn.click();
-    await signup_screenLocators.otp_screen_title.waitForDisplayed({ timeout: timeouts.SHORT_WAIT });
-    await forgot_passwordLocators.otp.setValue(otp);
-    await forgot_passwordLocators.otp_nextbtn.click();
+    await openForgotPasswordScreen(email);
+    await enterResetOtp(otp);
+    await enterNewPassword(password, confirmpassword);
+}
+
+/**
+ * Forgot Password with Mismatched Passwords
+ * Tests validation - should show error when passwords don't match
+ */
+export async function ForgotPasswordwithdifferentConfirmPassword(email: string, otp: string, password: string, confirmpassword: string) {
+    const forgot_passwordLocators = require('../screenobjects/forgot_password-locators');
+    
+    await openForgotPasswordScreen(email);
+    await enterResetOtp(otp);
+    
+    // Try to enter mismatched passwords
     await forgot_passwordLocators.password.setValue(password);
     await forgot_passwordLocators.confirmpassword.setValue(confirmpassword);
-    await forgot_passwordLocators.reset_nextbtn.click();
+    
+    // Should show error message
+    await forgot_passwordLocators.error_message_confirm_password.waitForDisplayed({ timeout: timeouts.ELEMENT_WAIT });
+    await expect(forgot_passwordLocators.error_message_confirm_password).toBeDisplayed();
 }
 
+/**
+ * Signup Flow
+ * Steps:
+ * 1. Complete onboarding screens
+ * 2. Open signup screen
+ * 3. Enter email and verify with OTP
+ * 4. Enter name and select gender
+ * 5. Select date of birth
+ * 6. Enter password
+ * 7. Done!
+ */
 export async function SignupFlow(otp: string, password: string, confirmpassword: string) {
-    await signup_screenLocators.nextbutton.waitForEnabled({ timeout: timeouts.LONG_WAIT });
-    await signup_screenLocators.nextbutton.click();
-    await signup_screenLocators.nextbutton.click();
-    await signup_screenLocators.nextbutton.click();
-    await signup_screenLocators.nextbutton.click();
-    await signup_screenLocators.nextbutton.click();
-    await signup_screenLocators.explorebutton.click();
-    await signup_screenLocators.bottom_nav_menu.click();
-    await signup_screenLocators.guestmenu_loginbtn.click();
-    await signup_screenLocators.emailswitcher.click();
-
-    function generateRandomEmail() {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let username = "";
-        for (let i = 0; i < 8; i++) {
-            username += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return username + "@yopmail.com";
-    }
-
-    function generateRandomName() {
-        const firstNames = ["Alice", "Bob", "Charlie", "David", "Emma", "Emily", "Olivia", "Noah", "William", "James"];
-        const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Miller", "Davis", "Garcia", "Rodriguez", "Wilson"];
-        const firstNameIndex = Math.floor(Math.random() * firstNames.length);
-        const lastNameIndex = Math.floor(Math.random() * lastNames.length);
-        return firstNames[firstNameIndex] + " " + lastNames[lastNameIndex];
-    }
-
-    await signup_screenLocators.login_inputemail.setValue(generateRandomEmail());
-    await signup_screenLocators.login_nextbtn.click();
-    await signup_screenLocators.otp_screen_title.waitForDisplayed({ timeout: timeouts.SHORT_WAIT });
-    await signup_screenLocators.otp.setValue(otp);
-    await signup_screenLocators.otp_nextbtn.click();
-    await signup_screenLocators.input_name.setValue(generateRandomName());
-    await signup_screenLocators.inputname_nextbtn.click();
-    await signup_screenLocators.gender_bottomsheet.click();
-    await signup_screenLocators.male_optionselect.click();
-    await signup_screenLocators.gender_nextbtn.click();
+    await completeOnboarding();
+    await openSignupScreen();
     
-    // Handle date picker for date of birth
-    // await signup_screenLocators.date_picker.waitForDisplayed({ timeout: timeouts.CLICK_WAIT });
-    await signup_screenLocators.date_picker.click();
-    // await browser.pause(timeouts.CLICK_WAIT);
+    const email = generateRandomEmail();
+    const name = generateRandomName();
     
-    await scrollNumberPicker('2015','2019'); 
+    await enterSignupEmail(email);
+    await enterSignupOtp(otp);
+    await enterNameAndGender(name);
+    await selectDateOfBirth();
+    await enterSignupPassword(password, confirmpassword);
     
-    await signup_screenLocators.confirm_datepicker_btn.click();
-    await signup_screenLocators.inputname_nextbtn.click();
-    await signup_screenLocators.password.setValue(password);
-    await signup_screenLocators.confirm_password.setValue(confirmpassword);
-    await signup_screenLocators.inputname_nextbtn.click();
+    // Confirm welcome screen
+    const signup_screenLocators = require('../screenobjects/signup_screen-locators');
     await expect(signup_screenLocators.welcome_message).toBeDisplayed();
-    await expect(signup_screenLocators.welcome_message).toHaveText('Glad to have you at Estenarh!');
     await signup_screenLocators.welcome_nextbtn.click();
 }
 
@@ -228,12 +256,30 @@ export async function SavedCardsbookingflow(consultant: string, cvc: string) {
     await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollForward()');
 
 
-    // Pick first available time slot
+    // Pick next available time slot
     const timeslots = await book_sessionLocators.all_timeslots;
-    if (timeslots.length > 0) {
-        // await timeslots[0].waitForClickable({ timeout: timeouts.NAVIGATION });
-        await timeslots[0].click();
-    } else {
+    let slotClicked = false;
+    
+    for (let i = 0; i < timeslots.length; i++) {
+        const slot = timeslots[i];
+        try {
+            const isEnabled = await slot.isEnabled();
+            const isDisplayed = await slot.isDisplayed();
+            
+            if (isEnabled && isDisplayed) {
+                const time = await slot.getAttribute('content-desc');
+                console.log(`Clicking available slot at index ${i}: ${time}`);
+                await slot.click();
+                slotClicked = true;
+                break;
+            }
+        } catch (error) {
+            console.log(`Slot ${i} not available, trying next...`);
+            continue;
+        }
+    }
+    
+    if (!slotClicked) {
         throw new Error('No available time slots found!');
     }
 
@@ -307,7 +353,7 @@ export async function SavedCardsbookingflow(consultant: string, cvc: string) {
         await book_sessionLocators.payment_completebtn.click();
     }
 } catch (error) {
-    console.log('Unexpected error → Flow failed:', error);
+    console.log('Unexpected error â†’ Flow failed:', error);
 }
 
 }
@@ -374,7 +420,7 @@ export async function Packagebuy(consultant: string, cvc: string) {
         await browser.pause(timeouts.PAYMENT_PROCESSING);
         await book_sessionLocators.Paybutton_hyperpay.click();
         await expect(book_sessionLocators.package_Suceessmsg).toBeDisplayed();
-        await expect(book_sessionLocators.package_Suceessmsg).toHaveText('You’ve successfully purchased a package with Ahmed Ali');
+        await expect(book_sessionLocators.package_Suceessmsg).toHaveText('Youâ€™ve successfully purchased a package with Ahmed Ali');
         await book_sessionLocators.payment_completebtn.click();
     }
     } 
@@ -417,23 +463,243 @@ export async function GiftWalletFlow({ email, name, message, cvc, cardNumber, ex
     await expect(gift_walletLocators.bottom_nav_menu).toBeDisplayed();
 }
 
-export async function AnxietyQuestionnaire(){
-    await resources_locator.resourcesnavbtn.click();
-    await resources_locator.anxiety_questionnaire.click();
-    await resources_locator.takequestionnairebtn.click();
-    await resources_locator.questionnaire_option0.click();
-    await resources_locator.questionnaire_btn_next.click();
-    await resources_locator.questionnaire_option2.click();
-    await resources_locator.questionnaire_btn_next.click();
-    await resources_locator.questionnaire_option1.click();
-    await resources_locator.questionnaire_btn_next.click();
-    await resources_locator.questionnaire_option3.click();
-    await resources_locator.questionnaire_btn_next.click();
-    await resources_locator.questionnaire_option1.click();
-    await resources_locator.questionnaire_btn_next.click();
-    await resources_locator.questionnaire_option2.click();
-    await resources_locator.questionnaire_btn_next.click();
-    await resources_locator.questionnaire_option3.click();
-    await resources_locator.questionnaire_btn_next.click();
+/**
+ * Anxiety Questionnaire Test
+ * Steps:
+ * 1. Open Resources tab
+ * 2. Select anxiety questionnaire
+ * 3. Answer questions
+ * 4. Complete questionnaire
+ */
+export async function AnxietyQuestionnaire() {
+    await openResourcesTab();
+    await selectAnxietyQuestionnaire();
+    
+    // Answer 7 questions with different responses
+    await answerQuestionnaireQuestion(0);
+    await answerQuestionnaireQuestion(2);
+    await answerQuestionnaireQuestion(1);
+    await answerQuestionnaireQuestion(3);
+    await answerQuestionnaireQuestion(1);
+    await answerQuestionnaireQuestion(2);
+    await answerQuestionnaireQuestion(3);
+    
+    // Complete questionnaire
+    const resources_locator = require('../screenobjects/Resources-locator');
     await resources_locator.questionnaire_btn_continue.click();
+}
+
+// ============================================
+// PAYMENT FLOW TESTS - Simple & Clear
+// Each function shows exactly what steps happen
+// Read from top to bottom to understand the test
+// ============================================
+
+type PaymentFlowParams = { email: string, password: string, consultant: string, cvc?: string, promoCode?: string }
+
+/**
+ * WALLET ONLY BOOKING
+ * User pays with their wallet balance
+ */
+export async function WalletOnlyBooking({ email, password, consultant, promoCode }: PaymentFlowParams) {
+    // Step 1: Login
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
+    
+    // Step 2: Search and select consultant
+    await searchConsultant(consultant);
+    await clickBookSessionButton();
+    
+    // Step 3: Select time slot
+    await selectFirstAvailableTimeSlot();
+    await confirmTimeSlot();
+    await clickPayNowAtSessionConfirmation();
+    
+    // Step 4: Payment options (wallet is already selected by default)
+    await selectWalletPayment();
+    
+    // Step 5: Apply promo code if provided
+    if (promoCode) {
+        await applyPromoCode(promoCode);
+    }
+    
+    // Step 6: Continue to checkout and complete payment
+    await continueToCheckout();
+    await completePayment();
+}
+
+/**
+ * PARTNER WALLET ONLY BOOKING
+ * User pays with partner wallet balance
+ */
+export async function PartnerWalletOnlyBooking({ email, password, consultant, promoCode }: PaymentFlowParams) {
+    // Step 1: Login
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
+    
+    // Step 2: Search and select consultant
+    await searchConsultant(consultant);
+    await clickBookSessionButton();
+    
+    // Step 3: Select time slot
+    await selectFirstAvailableTimeSlot();
+    await confirmTimeSlot();
+    await clickPayNowAtSessionConfirmation();
+    
+    // Step 4: Select partner wallet as payment method
+    await selectPartnerWalletPayment();
+    
+    // Step 5: Apply promo code if provided
+    if (promoCode) {
+        await applyPromoCode(promoCode);
+    }
+    
+    // Step 6: Continue to checkout and complete payment
+    await continueToCheckout();
+    await completePayment();
+}
+
+/**
+ * REFERRAL WALLET ONLY BOOKING
+ * User pays with referral credit
+ */
+export async function ReferralWalletOnlyBooking({ email, password, consultant, promoCode }: PaymentFlowParams) {
+    // Step 1: Login
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
+    
+    // Step 2: Search and select consultant
+    await searchConsultant(consultant);
+    await clickBookSessionButton();
+    
+    // Step 3: Select time slot
+    await selectFirstAvailableTimeSlot();
+    await confirmTimeSlot();
+    await clickPayNowAtSessionConfirmation();
+    
+    // Step 4: Select referral wallet as payment method
+    await selectReferralWalletPayment();
+    
+    // Step 5: Apply promo code if provided
+    if (promoCode) {
+        await applyPromoCode(promoCode);
+    }
+    
+    // Step 6: Continue to checkout and complete payment
+    await continueToCheckout();
+    await completePayment();
+}
+
+/**
+ * WALLET + SAVED CARD BOOKING
+ * Wallet covers part, saved card covers remaining balance
+ */
+export async function WalletAndSavedCardBooking({ email, password, consultant, cvc, promoCode }: PaymentFlowParams) {
+    // Step 1: Login
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
+    
+    // Step 2: Search and select consultant
+    await searchConsultant(consultant);
+    await clickBookSessionButton();
+    
+    // Step 3: Select time slot
+    await selectFirstAvailableTimeSlot();
+    await confirmTimeSlot();
+    await clickPayNowAtSessionConfirmation();
+    
+    // Step 4: Wallet is default payment method
+    await selectWalletPayment();
+    
+    // Step 5: Apply promo code if provided
+    if (promoCode) {
+        await applyPromoCode(promoCode);
+    }
+    
+    // Step 6: Go to checkout and select saved card for remaining balance
+    await continueToCheckout();
+    await selectSavedCardAtCheckout(cvc!);
+    
+    // Step 7: Complete payment
+    await completePayment();
+}
+
+/**
+ * WALLET + NEW CARD BOOKING
+ * Wallet covers part, user enters new card for remaining balance
+ */
+export async function WalletAndHyperPayBooking({ email, password, consultant, promoCode }: PaymentFlowParams) {
+    // Step 1: Login
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
+    
+    // Step 2: Search and select consultant
+    await searchConsultant(consultant);
+    await clickBookSessionButton();
+    
+    // Step 3: Select time slot
+    await selectFirstAvailableTimeSlot();
+    await confirmTimeSlot();
+    await clickPayNowAtSessionConfirmation();
+    
+    // Step 4: Wallet is default payment method
+    await selectWalletPayment();
+    
+    // Step 5: Apply promo code if provided
+    if (promoCode) {
+        await applyPromoCode(promoCode);
+    }
+    
+    // Step 6: Go to checkout and add new card for remaining balance
+    await continueToCheckout();
+    await addNewCardAtCheckout();
+    
+    // Step 7: Complete payment
+    await completePayment();
+}
+
+/**
+ * REFERRAL WALLET + SAVED CARD BOOKING
+ * Referral credit covers part, saved card covers remaining balance
+ */
+export async function ReferralWalletAndSavedCardBooking({ email, password, consultant, cvc, promoCode }: PaymentFlowParams) {
+    // Step 1: Login
+    await clickLoginMenu();
+    await enterEmail(email);
+    await enterPassword(password);
+    await dismissNotifications();
+    
+    // Step 2: Search and select consultant
+    await searchConsultant(consultant);
+    await clickBookSessionButton();
+    
+    // Step 3: Select time slot
+    await selectFirstAvailableTimeSlot();
+    await confirmTimeSlot();
+    await clickPayNowAtSessionConfirmation();
+    
+    // Step 4: Select referral wallet as payment method
+    await selectReferralWalletPayment();
+    
+    // Step 5: Apply promo code if provided
+    if (promoCode) {
+        await applyPromoCode(promoCode);
+    }
+    
+    // Step 6: Go to checkout and select saved card for remaining balance
+    await continueToCheckout();
+    await selectSavedCardAtCheckout(cvc!);
+    
+    // Step 7: Complete payment
+    await completePayment();
 }

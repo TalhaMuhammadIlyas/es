@@ -41,6 +41,9 @@ class LoginScreenLocators {
     get home_screen_identifier() {
         return $('(//android.widget.TextView[@text="Consultants"])[1]');
     }
+    get login_error_message() {
+        return $('//android.widget.TextView[@text="Wrong password"]');
+    }
 }
 
 module.exports = new LoginScreenLocators();

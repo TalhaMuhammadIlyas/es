@@ -23,7 +23,7 @@ export const config: any = {
         'appium:automationName': 'UiAutomator2',
         'appium:app': './app/Estenarh.apk',
         'appium:noReset': true,
-        // 'appium:autoGrantPermissions': true,
+        'appium:autoGrantPermissions': true,
         'appium:newCommandTimeout': 240
     }],
     logLevel: 'info',

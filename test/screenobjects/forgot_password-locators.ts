@@ -32,6 +32,12 @@ class ForgotPasswordLocators {
     get reset_nextbtn() {
         return $('~reset_password_btn_next');
     }
+    get error_message_confirm_password() {
+        return $('//android.widget.TextView[@text="Passwords do not match"]');
+    }
+    get resetpassword_btn() {
+        return $('~login_btn_next');
+    }
 }
 
 module.exports = new ForgotPasswordLocators();
